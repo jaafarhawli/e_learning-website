@@ -28,6 +28,7 @@ class AdminController extends Controller
         $admin->_id = $user->_id;
         $admin->students = [];
         $admin->instructors = [];
+        $admin->courses = [];
         $admin->save();
 
         return response()->json([
