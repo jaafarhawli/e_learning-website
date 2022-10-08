@@ -11,6 +11,8 @@ Route::group(["prefix"=> "v1"], function() {
     
     Route::post('logout', [AuthController::class, "logout"]);
     
+    Route::post('add_admin', [AdminController::class, "addAdmin"]);
+    
     Route::post('add_student', [AdminController::class, "addStudent"]);
     
     Route::post('add_instructor', [AdminController::class, "addInstructor"]);
