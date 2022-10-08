@@ -12,6 +12,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::post('logout', [AuthController::class, "logout"]);
     
     Route::post('add_student', [AdminController::class, "addStudent"]);
+    
+    Route::post('add_instructor', [AdminController::class, "addInstructor"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
