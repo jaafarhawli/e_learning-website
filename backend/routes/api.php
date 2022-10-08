@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 
 Route::group(["prefix"=> "v1"], function() {
 
@@ -10,6 +11,8 @@ Route::group(["prefix"=> "v1"], function() {
     
     Route::post('logout', [AuthController::class, "logout"]);
     
+    
+
     Route::group(["middleware" => "auth:api"], function() {});
 
 });
