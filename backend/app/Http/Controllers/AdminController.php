@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Admin;
+use App\Models\Instructor;
 
 class AdminController extends Controller
 {
@@ -36,21 +37,20 @@ class AdminController extends Controller
 
     function addStudent(Request $request) {
         $request->validate([
-            "admin_id" => "required",
+            "adder_id" => "required",
             "name" => "required",
             "email" => "required|email|unique:users",
             "password" => "required|min:8|",
         ]);
 
         $user = new User();
-        $user->admin_id = $request->admin_id;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->type = 'student';
         $user->save();
 
-        Admin::where('_id','=',$user->admin_id)->push('students', array( 'id' => $user->_id ));
+        Admin::where('_id','=',$request->adder_id)->push('students', array( 'id' => $user->_id ));
 
         return response()->json([
             "status" => 1,
@@ -67,12 +67,18 @@ class AdminController extends Controller
         ]);
 
         $user = new User();
-        $user->admin_id = $request->admin_id;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->type = 'instructor';
         $user->save();
+
+        $instructor = new Instructor();
+        $instructor->_id = $user->_id;
+        $instructor->students = [];
+        $instructor->courses = [];
+        $instructor->announcements = [];
+        $instructor->save();
 
         Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
 
