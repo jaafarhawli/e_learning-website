@@ -25,6 +25,7 @@ class AdminController extends Controller
         $admin = new Admin();
         $admin->_id = $user->_id;
         $admin->students = [];
+        $admin->instructors = [];
         $admin->save();
 
         return response()->json([
@@ -59,22 +60,25 @@ class AdminController extends Controller
 
     function addInstructor(Request $request) {
         $request->validate([
+            "admin_id" => "required",
             "name" => "required",
             "email" => "required|email|unique:users",
             "password" => "required|min:8|",
         ]);
 
         $user = new User();
+        $user->admin_id = $request->admin_id;
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->type = 'instructor';
         $user->save();
 
+        Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
+
         return response()->json([
             "status" => 1,
             "message" => "User registered successfully"
         ], 200);
     }
-    
 }
