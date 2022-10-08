@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Instructor;
+use App\Models\Student;
 
 class AdminController extends Controller
 {
