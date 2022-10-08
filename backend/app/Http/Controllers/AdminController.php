@@ -51,6 +51,12 @@ class AdminController extends Controller
         $user->type = 'student';
         $user->save();
 
+        $student = new Student();
+        $student->_id = $user->_id;
+        $student->courses = [];
+        $student->submissions = [];
+        $student->save();
+
         Admin::where('_id','=',$request->adder_id)->push('students', array( 'id' => $user->_id ));
 
         return response()->json([
