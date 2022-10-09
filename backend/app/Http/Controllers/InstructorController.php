@@ -45,4 +45,33 @@ class InstructorController extends Controller
             "message" => "Student assigned successfully",
         ], 200);
     }
+
+    function addAssignment(Request $request) {
+        $request->validate([
+            "course_id" => "required",
+            "assignment_name" => "required|distinct",
+            "assignment_content" => "required|string",
+            "due_date"  => "required|date_format:Y-m-d",
+        ]);
+
+        $course_id = $request->course_id;
+        $name = $request->assignment_name;
+        $assignment = $request->assignment_content;
+        $due = $request->due_date;
+
+        $assignments = Course::where('_id','=',$course_id)->get(['assignments']);
+        foreach($assignments[0]->assignments as $element) {
+            if($element['name'] == $name) {
+                return response()->json([
+                    "message" => "Assignment already exists",
+                ],);
+            }
+        }
+        Course::where('_id','=',$course_id)->push('assignments', array( 'name' => $name, 'content' => $assignment, 'due' => $due ));
+
+        return response()->json([
+            "status" => 1,
+            "message" => "Assignment added successfully",
+        ], 200);
+    }
 }

@@ -44,6 +44,8 @@ Route::group(["prefix"=> "v1"], function() {
     
     
     Route::post('assign_student', [InstructorController::class, "assignStudentToCourse"]);
+    
+    Route::post('add_assignment', [InstructorController::class, "addAssignment"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
