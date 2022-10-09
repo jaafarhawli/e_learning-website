@@ -246,4 +246,12 @@ class AdminController extends Controller
             "status" => 1,
             "data" => $courses]);
     }
+    
+    function viewCourse ($id) {
+        $course = Course::find($id);
+        
+        return response()->json([
+            "status" => 1,
+            "data" => $course]);
+    }
 }
