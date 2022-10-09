@@ -22,6 +22,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::post('assign_instructor', [AdminController::class, "assignInstructor"]);
     
     Route::get('view_instructors', [AdminController::class, "viewInstructors"]);
+    
+    Route::get('view_students', [AdminController::class, "viewStudents"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 

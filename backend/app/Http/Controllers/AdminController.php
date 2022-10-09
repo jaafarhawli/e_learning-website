@@ -194,4 +194,18 @@ class AdminController extends Controller
             "status" => 1,
             "data" => $instructors]);
     }
+    
+    function viewStudents () {
+        $students = Student::all();
+
+        foreach($students as $student) {
+            $data = User::where('_id','=',$student->_id)->get(['name','email']);
+            $student['name'] = $data[0]->name;
+            $student['email'] = $data[0]->email;
+        }
+        
+        return response()->json([
+            "status" => 1,
+            "data" => $students]);
+    }
 }
