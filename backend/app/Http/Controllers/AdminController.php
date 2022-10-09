@@ -75,6 +75,13 @@ class AdminController extends Controller
             "password" => "required|min:8|",
         ]);
 
+        $instructor_email = User::where('email', '=', $request->email);
+        if(count($instructor_email)>0) {
+            return response()->json([
+                "message" => "Email already exists in the database",
+            ]); 
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
