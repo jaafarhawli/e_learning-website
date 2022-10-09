@@ -10,7 +10,7 @@ use App\Models\Course;
 
 class InstructorController extends Controller
 {
-    function assignStudentToCourse(Request $request) {
+    function enrollStudent(Request $request) {
         $request->validate([
             "course_id" => "required",
             "students" => "required|array",
@@ -22,7 +22,7 @@ class InstructorController extends Controller
                 "message" => "Course not found",
             ]); 
         };
-
+        
         foreach ($request->students as $email) {
             $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
             $id = $id[0]->_id;
@@ -34,9 +34,9 @@ class InstructorController extends Controller
                         "data" => $email,
                     ]); 
                 }
-                Student::where('_id','=',$id)->push('courses', array( 'id' => $request->course_id ));
+                Student::where('_id','=',$id)->push('courses', $request->course_id);
             }
-            Course::where('_id','=',$request->course_id)->push('students', array( 'id' => $id ));
+            Course::where('_id','=',$request->course_id)->push('students', $id);
         };
 
         return response()->json([
@@ -77,14 +77,16 @@ class InstructorController extends Controller
     function addAnnouncement(Request $request) {
         $request->validate([
             "course_id" => "required",
+            "title" => "required",
             "announcement_content" => "required",
         ]);
 
         $course_id = $request->course_id;
+        $title = $request->title;
         $content = $request->announcement_content;
         $time = date('Y-m-d h:i:s');
 
-        Course::where('_id','=',$course_id)->push('announcements', array( 'content' => $content, 'time' => $time ));
+        Course::where('_id','=',$course_id)->push('announcements', array( 'content' => $content, 'title' => $title, 'time' => $time ));
 
         return response()->json([
             "status" => 1,
@@ -92,5 +94,8 @@ class InstructorController extends Controller
         ], 200);
     }
 
-
+    function viewCourses($id) {
+        $courses = Course::where('instructors','=',$id)->get();
+        return $courses;
+    }
 }

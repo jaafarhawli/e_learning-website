@@ -76,7 +76,7 @@ class AdminController extends Controller
             "password" => "required|min:8|",
         ]);
 
-        $instructor_email = User::where('email', '=', $request->email);
+        $instructor_email = User::where('email', '=', $request->email)->get();
         if(count($instructor_email)>0) {
             return response()->json([
                 "message" => "Email already exists in the database",
@@ -167,9 +167,9 @@ class AdminController extends Controller
                         "message" => "Instructor already assigned",
                     ]); 
                 }
-                Instructor::where('_id','=',$id)->push('courses', array( 'id' => $request->course_id ));
+                Instructor::where('_id','=',$id)->push('courses', $request->course_id);
             }
-            Course::where('_id','=',$request->course_id)->push('instructors', array( 'id' => $id));
+            Course::where('_id','=',$request->course_id)->push('instructors', $id);
         };
 
         return response()->json([
