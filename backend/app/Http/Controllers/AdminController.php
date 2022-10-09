@@ -108,36 +108,35 @@ class AdminController extends Controller
         $request->validate([
             "admin_id" => "required",
             "name" => "required|unique:courses",
-            "instructors" => "required|array",
-            "instructors.*"  => "required|string|distinct",
-            "students" => "required|array",
-            "students.*"  => "required|string|distinct",
         ]);
-
-        $instructors_ids = [];
-        $students_ids = [];
-
-        foreach ($request->instructors as $email) {
-            $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
-            
-            if(count($id)>0) {
-                array_push($instructors_ids,  array('id' => $id[0]->_id));
-            }
-        };
-
-        foreach ($request->students as $email) {
-            $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
-            if(count($id)>0) {
-                array_push($students_ids, array('id' => $id[0]->_id));
-            }
-        };
 
         $course = new Course();
         $course->name = $request->name;
-        $course->students = $students_ids;
-        $course->instructors = $instructors_ids;
+        $course->students = [];
+        $course->instructors = [];
         $course->assignments = [];
         $course->save();
+
+
+        // foreach ($request->instructors as $email) {
+        //     $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
+            
+        //     if(count($id)>0) {
+        //         array_push($instructors_ids,  array('id' => $id[0]->_id));
+        //         Instructor::where('_id','=', $id[0]->_id)->push('courses', array( 'id' => $course->_id ));
+        //     }
+        // };
+
+        // foreach ($request->students as $email) {
+        //     $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
+        //     if(count($id)>0) {
+        //         array_push($students_ids, array('id' => $id[0]->_id));
+        //         Student::where('_id','=', $id[0]->_id)->push('courses', array( 'id' => $course->_id ));
+        //     }
+        // };
+
+       
+        
 
         Admin::where('_id','=',$request->admin_id)->push('courses', array( 'id' => $course->_id ));
 
