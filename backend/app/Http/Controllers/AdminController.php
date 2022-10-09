@@ -180,4 +180,18 @@ class AdminController extends Controller
             "message" => "User registered successfully",
         ], 200);
     }
+
+    function viewInstructors () {
+        $instructors = Instructor::all();
+
+        foreach($instructors as $instructor) {
+            $data = User::where('_id','=',$instructor->_id)->get(['name','email']);
+            $instructor['name'] = $data[0]->name;
+            $instructor['email'] = $data[0]->email;
+        }
+        
+        return response()->json([
+            "status" => 1,
+            "data" => $instructors]);
+    }
 }
