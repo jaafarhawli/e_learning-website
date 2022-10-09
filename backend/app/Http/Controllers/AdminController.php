@@ -106,21 +106,30 @@ class AdminController extends Controller
             "students" => "required|array",
             "students.*"  => "required|string|distinct",
         ]);
+        $name = Course::where('name','=',$request->name)->get();
+        if(count($name)>0) {
+            return response()->json([
+                "message" => "Choose another course name",
+            ]); 
+        }
 
         $instructors_ids = [];
         $students_ids = [];
 
         foreach ($request->instructors as $email) {
             $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
-            array_push($instructors_ids,  array('id' => $id[0]->_id));
+            
+            if(count($id)>0) {
+                array_push($instructors_ids,  array('id' => $id[0]->_id));
+            }
         };
 
         foreach ($request->students as $email) {
             $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
-            array_push($students_ids, array('id' => $id[0]->_id));
+            if(count($id)>0) {
+                array_push($students_ids, array('id' => $id[0]->_id));
+            }
         };
-
-    
 
         $course = new Course();
         $course->name = $request->name;
