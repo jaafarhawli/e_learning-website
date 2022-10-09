@@ -223,6 +223,21 @@ class AdminController extends Controller
             "status" => 1,
             "data" => $students]);
     }
+
+    function viewStudent($id) {
+        $student = Student::find($id);
+        if(!$student) {
+            return response()->json([
+                "message" => "Couldn't find the student"]);
+        }
+        $data = User::where('_id','=',$id)->get(['name','email']);
+        $student['name'] = $data[0]->name;
+        $student['email'] = $data[0]->email;
+
+        return response()->json([
+            "status" => 1,
+            "data" => $student]);
+    }
     
     function viewCourses () {
         $courses = Course::all();
