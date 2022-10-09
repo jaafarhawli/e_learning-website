@@ -40,18 +40,11 @@ class AdminController extends Controller
 
     function addStudent(Request $request) {
         $request->validate([
-            "adder_id" => "required",
+            "admin_id" => "required",
             "name" => "required",
             "email" => "required|email|unique:users",
             "password" => "required|min:8|",
         ]);
-
-        $student_email = User::where('email', '=', $request->email);
-        if(count($student_email)>0) {
-            return response()->json([
-                "message" => "Email already exists in the database",
-            ]); 
-        }
 
         $user = new User();
         $user->name = $request->name;
@@ -66,7 +59,7 @@ class AdminController extends Controller
         $student->submissions = [];
         $student->save();
 
-        Admin::where('_id','=',$request->adder_id)->push('students', array( 'id' => $user->_id ));
+        Admin::where('_id','=',$request->admin_id)->push('students', array( 'id' => $user->_id ));
 
         return response()->json([
             "status" => 1,
@@ -114,18 +107,12 @@ class AdminController extends Controller
     function addCourse(Request $request) {
         $request->validate([
             "admin_id" => "required",
-            "name" => "required",
+            "name" => "required|unique:courses",
             "instructors" => "required|array",
             "instructors.*"  => "required|string|distinct",
             "students" => "required|array",
             "students.*"  => "required|string|distinct",
         ]);
-        $name = Course::where('name','=',$request->name)->get();
-        if(count($name)>0) {
-            return response()->json([
-                "message" => "Choose another course name",
-            ]); 
-        }
 
         $instructors_ids = [];
         $students_ids = [];
@@ -184,6 +171,7 @@ class AdminController extends Controller
                         "message" => "Instructor already assigned",
                     ]); 
                 }
+                Instructor::where('_id','=',$id)->push('courses', array( 'id' => $request->course_id ));
             }
             Course::where('_id','=',$request->course_id)->push('instructors', array( 'id' => $id[0]->_id ));
         };
