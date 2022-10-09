@@ -77,16 +77,20 @@ class InstructorController extends Controller
     function addAnnouncement(Request $request) {
         $request->validate([
             "course_id" => "required",
+            "instructor_id" => "required",
             "title" => "required",
             "announcement_content" => "required",
         ]);
 
         $course_id = $request->course_id;
+        $instructor_id = $request->instructor_id;
+        $name = User::find($instructor_id);
+        $name = $name->name;
         $title = $request->title;
         $content = $request->announcement_content;
         $time = date('Y-m-d h:i:s');
 
-        Course::where('_id','=',$course_id)->push('announcements', array( 'content' => $content, 'title' => $title, 'time' => $time ));
+        Course::where('_id','=',$course_id)->push('announcements', array( 'instructor_id'=> $instructor_id,'instructor'=> $name,'content' => $content, 'title' => $title, 'time' => $time ));
 
         return response()->json([
             "status" => 1,
@@ -111,5 +115,20 @@ class InstructorController extends Controller
         return response()->json([
             "status" => 1,
             "data" => $students]);
+    }
+
+    function viewInstructorAnnouncements($id) {
+        $result = [];
+        $courses = Course::where('instructors','=',$id)->get();
+        foreach($courses as $course) {
+            foreach($course->announcements as $announcement) {
+                if($announcement) {
+                    if($announcement['instructor_id']==$id) {
+                        array_push($result, $announcement);
+                    }
+                }
+            }
+        }
+        return $result;
     }
 }
