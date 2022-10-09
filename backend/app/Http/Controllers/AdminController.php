@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Admin;
 use App\Models\Instructor;
 use App\Models\Student;
+use App\Models\Course;
 
 class AdminController extends Controller
 {
@@ -93,6 +94,46 @@ class AdminController extends Controller
         return response()->json([
             "status" => 1,
             "message" => "User registered successfully"
+        ], 200);
+    }
+    
+    function addCourse(Request $request) {
+        $request->validate([
+            "admin_id" => "required",
+            "name" => "required",
+            "instructors" => "required|array",
+            "instructors.*"  => "required|string|distinct",
+            "students" => "required|array",
+            "students.*"  => "required|string|distinct",
+        ]);
+
+        $instructors_ids = [];
+        $students_ids = [];
+
+        foreach ($request->instructors as $email) {
+            $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
+            array_push($instructors_ids, $id[0]->_id);
+        };
+
+        foreach ($request->students as $email) {
+            $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
+            array_push($students_ids, $id[0]->_id);
+        };
+
+        $course = new Course();
+        $course->name = $request->name;
+        $course->students = $students_ids;
+        $course->instructors = $instructors_ids;
+        $course->assignments = [];
+        $course->save();
+
+        Admin::where('_id','=',$request->admin_id)->push('courses', array( 'id' => $course->_id ));
+
+        return response()->json([
+            "status" => 1,
+            "message" => "User registered successfully",
+            "students" => $students_ids,
+            "instructors" => $instructors_ids
         ], 200);
     }
 }
