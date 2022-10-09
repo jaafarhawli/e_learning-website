@@ -15,4 +15,9 @@ class StudentController extends Controller
         $courses = Course::where('students','=',$id)->get();
         return $courses;
     }
+
+    function viewCourseAssignments($id) {
+        $assignments = Course::where('_id','=',$id)->get('assignments');
+        return $assignments;
+    }
 }
