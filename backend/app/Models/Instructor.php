@@ -14,7 +14,7 @@ class Instructor extends Eloquent
     protected $collection = 'instructors';
 
     protected $fillable = [
-        'courses', 'students', 'announcements'
+        'admin_id','courses', 'announcements'
     ];
 
 }

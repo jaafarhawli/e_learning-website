@@ -27,9 +27,9 @@ class AdminController extends Controller
 
         $admin = new Admin();
         $admin->_id = $user->_id;
-        $admin->students = [];
-        $admin->instructors = [];
-        $admin->courses = [];
+        // $admin->students = [];
+        // $admin->instructors = [];
+        // $admin->courses = [];
         $admin->save();
 
         return response()->json([
@@ -55,11 +55,12 @@ class AdminController extends Controller
 
         $student = new Student();
         $student->_id = $user->_id;
+        $student->admin_id = $request->admin_id;
         $student->courses = [];
         $student->submissions = [];
         $student->save();
 
-        Admin::where('_id','=',$request->admin_id)->push('students', array( 'id' => $user->_id ));
+        // Admin::where('_id','=',$request->admin_id)->push('students', array( 'id' => $user->_id ));
 
         return response()->json([
             "status" => 1,
@@ -91,12 +92,12 @@ class AdminController extends Controller
 
         $instructor = new Instructor();
         $instructor->_id = $user->_id;
-        $instructor->students = [];
+        $instructor->admin_id = $request->admin_id;
         $instructor->courses = [];
         $instructor->announcements = [];
         $instructor->save();
 
-        Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
+        // Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
 
         return response()->json([
             "status" => 1,
@@ -112,11 +113,11 @@ class AdminController extends Controller
 
         $course = new Course();
         $course->name = $request->name;
+        $course->admin_id = $request->admin_id;
         $course->students = [];
         $course->instructors = [];
         $course->assignments = [];
         $course->save();
-
 
         // foreach ($request->instructors as $email) {
         //     $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
@@ -135,10 +136,7 @@ class AdminController extends Controller
         //     }
         // };
 
-       
-        
-
-        Admin::where('_id','=',$request->admin_id)->push('courses', array( 'id' => $course->_id ));
+        // Admin::where('_id','=',$request->admin_id)->push('courses', array( 'id' => $course->_id ));
 
         return response()->json([
             "status" => 1,
@@ -148,7 +146,6 @@ class AdminController extends Controller
 
     function assignInstructor(Request $request) {
         $request->validate([
-            "admin_id" => "required",
             "course_id" => "required",
             "instructors" => "required|array",
             "instructors.*"  => "required|string|distinct",
@@ -253,5 +250,27 @@ class AdminController extends Controller
         return response()->json([
             "status" => 1,
             "data" => $course]);
+    }
+
+    function removeStudent(Request $request) {
+        $id = $request->id;
+        $student = Student::find($id);
+        if(!$student) {
+            return response()->json([
+                "message" => "Couldn't find the student"]);
+        }
+        $student->delete();
+
+        $user = User::find($id);
+        $user->delete();
+
+        $courses = Course::all();
+        foreach($courses as $course) {
+            foreach($course->students as $student) {
+                if($student['id']==$id) {
+                    Course::where('_id','=',$course->_id)->pull('students', $student);
+                }
+            }       
+        }
     }
 }
