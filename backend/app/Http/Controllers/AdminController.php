@@ -169,7 +169,7 @@ class AdminController extends Controller
                 }
                 Instructor::where('_id','=',$id)->push('courses', array( 'id' => $request->course_id ));
             }
-            Course::where('_id','=',$request->course_id)->push('instructors', array( 'id' => $id[0]->_id ));
+            Course::where('_id','=',$request->course_id)->push('instructors', array( 'id' => $id));
         };
 
         return response()->json([

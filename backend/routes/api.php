@@ -39,6 +39,11 @@ Route::group(["prefix"=> "v1"], function() {
     Route::get('view_courses', [AdminController::class, "viewCourses"]);
     
     Route::get('view_course/{id}', [AdminController::class, "viewCourse"]);
+    
+    
+    
+    
+    Route::post('assign_student', [InstructorController::class, "assignStudentToCourse"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
