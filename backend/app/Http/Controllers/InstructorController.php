@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Admin;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Course;
@@ -49,7 +48,7 @@ class InstructorController extends Controller
     function addAssignment(Request $request) {
         $request->validate([
             "course_id" => "required",
-            "assignment_name" => "required|distinct",
+            "assignment_name" => "required",
             "assignment_content" => "required|string",
             "due_date"  => "required|date_format:Y-m-d",
         ]);
@@ -74,4 +73,24 @@ class InstructorController extends Controller
             "message" => "Assignment added successfully",
         ], 200);
     }
+    
+    function addAnnouncement(Request $request) {
+        $request->validate([
+            "course_id" => "required",
+            "announcement_content" => "required",
+        ]);
+
+        $course_id = $request->course_id;
+        $content = $request->announcement_content;
+        $time = date('Y-m-d h:i:s');
+
+        Course::where('_id','=',$course_id)->push('announcements', array( 'content' => $content, 'time' => $time ));
+
+        return response()->json([
+            "status" => 1,
+            "message" => "Announcement added successfully",
+        ], 200);
+    }
+
+
 }

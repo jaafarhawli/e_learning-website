@@ -11,6 +11,9 @@ Route::group(["prefix"=> "v1"], function() {
     Route::post('login', [AuthController::class, "login"]);
     
     Route::post('logout', [AuthController::class, "logout"]);
+
+
+    
     
     Route::post('add_admin', [AdminController::class, "addAdmin"]);
     
@@ -46,6 +49,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::post('assign_student', [InstructorController::class, "assignStudentToCourse"]);
     
     Route::post('add_assignment', [InstructorController::class, "addAssignment"]);
+    
+    Route::post('add_announcement', [InstructorController::class, "addAnnouncement"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
