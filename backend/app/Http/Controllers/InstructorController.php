@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use MongoDB\BSON\ObjectID;
 use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Student;
@@ -48,12 +49,15 @@ class InstructorController extends Controller
     function addAssignment(Request $request) {
         $request->validate([
             "course_id" => "required",
+            "instructor_id" => "required",
             "assignment_name" => "required",
             "assignment_content" => "required|string",
             "due_date"  => "required|date_format:Y-m-d",
         ]);
+        $objectID = new ObjectID();
 
         $course_id = $request->course_id;
+        $instructor_id = $request->instructor_id;
         $name = $request->assignment_name;
         $assignment = $request->assignment_content;
         $due = $request->due_date;
@@ -66,7 +70,7 @@ class InstructorController extends Controller
                 ],);
             }
         }
-        Course::where('_id','=',$course_id)->push('assignments', array( 'name' => $name, 'content' => $assignment, 'due' => $due ));
+        Course::where('_id','=',$course_id)->push('assignments', array( '_id' => $objectID,'instructor_id'=> $instructor_id, 'name' => $name, 'content' => $assignment, 'due' => $due ));
 
         return response()->json([
             "status" => 1,
@@ -81,6 +85,7 @@ class InstructorController extends Controller
             "title" => "required",
             "announcement_content" => "required",
         ]);
+        $objectID = new ObjectID();
 
         $course_id = $request->course_id;
         $instructor_id = $request->instructor_id;
@@ -90,7 +95,7 @@ class InstructorController extends Controller
         $content = $request->announcement_content;
         $time = date('Y-m-d h:i:s');
 
-        Course::where('_id','=',$course_id)->push('announcements', array( 'instructor_id'=> $instructor_id,'instructor'=> $name,'content' => $content, 'title' => $title, 'time' => $time ));
+        Course::where('_id','=',$course_id)->push('announcements', array( '_id' => $objectID,'instructor_id'=> $instructor_id,'instructor'=> $name,'content' => $content, 'title' => $title, 'time' => $time ));
 
         return response()->json([
             "status" => 1,
@@ -125,6 +130,21 @@ class InstructorController extends Controller
                 if($announcement) {
                     if($announcement['instructor_id']==$id) {
                         array_push($result, $announcement);
+                    }
+                }
+            }
+        }
+        return $result;
+    }
+
+    function viewInstructorAssignments($id) {
+        $result = [];
+        $courses = Course::where('instructors','=',$id)->get();
+        foreach($courses as $course) {
+            foreach($course->assignments as $assignment) {
+                if($assignment) {
+                    if($assignment['instructor_id']==$id) {
+                        array_push($result, $assignment);
                     }
                 }
             }

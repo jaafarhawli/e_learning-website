@@ -167,8 +167,8 @@ class AdminController extends Controller
                         "message" => "Instructor already assigned",
                     ]); 
                 }
-                Instructor::where('_id','=',$id)->push('courses', $request->course_id);
             }
+            Instructor::where('_id','=',$id)->push('courses', $request->course_id);
             Course::where('_id','=',$request->course_id)->push('instructors', $id);
         };
 
