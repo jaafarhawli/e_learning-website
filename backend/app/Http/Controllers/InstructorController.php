@@ -26,16 +26,16 @@ class InstructorController extends Controller
         foreach ($request->students as $email) {
             $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
             $id = $id[0]->_id;
-        
+            
             foreach($course->students as $student_id) {
-                if($student_id['id']==$id) {
+                if($student_id==$id) {
                     return response()->json([
                         "message" => "Student already assigned",
                         "data" => $email,
                     ]); 
                 }
-                Student::where('_id','=',$id)->push('courses', $request->course_id);
             }
+            Student::where('_id','=',$id)->push('courses', $request->course_id);
             Course::where('_id','=',$request->course_id)->push('students', $id);
         };
 
@@ -97,5 +97,19 @@ class InstructorController extends Controller
     function viewCourses($id) {
         $courses = Course::where('instructors','=',$id)->get();
         return $courses;
+    }
+
+    function viewStudentsInCourse($id) {
+        $students = Student::where('courses', '=', $id)->get();
+
+        foreach($students as $student) {
+            $data = User::where('_id','=',$student->_id)->get(['name','email']);
+            $student['name'] = $data[0]->name;
+            $student['email'] = $data[0]->email;
+        }
+        
+        return response()->json([
+            "status" => 1,
+            "data" => $students]);
     }
 }
