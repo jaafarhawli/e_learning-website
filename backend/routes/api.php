@@ -23,6 +23,8 @@ Route::group(["prefix"=> "v1"], function() {
     
     Route::post('add_course', [AdminController::class, "addCourse"]);
     
+    Route::post('remove_course', [AdminController::class, "removeCourse"]);
+    
     Route::post('assign_instructor', [AdminController::class, "assignInstructor"]);
     
     Route::get('view_instructors', [AdminController::class, "viewInstructors"]);

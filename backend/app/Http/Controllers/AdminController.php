@@ -303,4 +303,36 @@ class AdminController extends Controller
             "message" => "Instructor removed successfully",
         ], 200);
     }
+    
+    function removeCourse(Request $request) {
+        $id = $request->id;
+        $course = Course::find($id);
+        if(!$course) {
+            return response()->json([
+                "message" => "Couldn't find the course"]);
+        }
+        $course->delete();
+
+        $students = Student::all();
+        foreach($students as $student) {
+            foreach($student->courses as $course) {
+                if($course['id']==$id) {
+                    Student::where('_id','=',$student->_id)->pull('courses', $course);
+                }
+            }       
+        }
+        
+        $instructors = Instructor::all();
+        foreach($instructors as $instructor) {
+            foreach($instructor->courses as $course) {
+                if($course['id']==$id) {
+                    Instructor::where('_id','=',$instructor->_id)->pull('courses', $course);
+                }
+            }       
+        }
+        return response()->json([
+            "status" => 1,
+            "message" => "Course removed successfully",
+        ], 200);
+    }
 }
