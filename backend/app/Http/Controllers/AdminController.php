@@ -208,4 +208,12 @@ class AdminController extends Controller
             "status" => 1,
             "data" => $students]);
     }
+    
+    function viewCourses () {
+        $courses = Course::all();
+        
+        return response()->json([
+            "status" => 1,
+            "data" => $courses]);
+    }
 }

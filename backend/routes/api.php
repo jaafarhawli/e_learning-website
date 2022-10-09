@@ -24,6 +24,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::get('view_instructors', [AdminController::class, "viewInstructors"]);
     
     Route::get('view_students', [AdminController::class, "viewStudents"]);
+    
+    Route::get('view_courses', [AdminController::class, "viewCourses"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
