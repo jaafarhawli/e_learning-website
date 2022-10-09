@@ -11,5 +11,8 @@ use App\Models\Course;
 
 class StudentController extends Controller
 {
-    
+    function viewStudentCourses($id) {
+        $courses = Course::where('students','=',$id)->get();
+        return $courses;
+    }
 }
