@@ -94,7 +94,6 @@ class AdminController extends Controller
         $instructor->_id = $user->_id;
         $instructor->admin_id = $request->admin_id;
         $instructor->courses = [];
-        $instructor->announcements = [];
         $instructor->save();
 
         // Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
@@ -117,6 +116,7 @@ class AdminController extends Controller
         $course->students = [];
         $course->instructors = [];
         $course->assignments = [];
+        $course->announcements = [];
         $course->save();
 
         // foreach ($request->instructors as $email) {
