@@ -112,13 +112,15 @@ class AdminController extends Controller
 
         foreach ($request->instructors as $email) {
             $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
-            array_push($instructors_ids, $id[0]->_id);
+            array_push($instructors_ids,  array('id' => $id[0]->_id));
         };
 
         foreach ($request->students as $email) {
             $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
-            array_push($students_ids, $id[0]->_id);
+            array_push($students_ids, array('id' => $id[0]->_id));
         };
+
+    
 
         $course = new Course();
         $course->name = $request->name;
@@ -132,8 +134,40 @@ class AdminController extends Controller
         return response()->json([
             "status" => 1,
             "message" => "User registered successfully",
-            "students" => $students_ids,
-            "instructors" => $instructors_ids
+        ], 200);
+    }
+
+    function assignInstructor(Request $request) {
+        $request->validate([
+            "admin_id" => "required",
+            "course_id" => "required",
+            "instructors" => "required|array",
+            "instructors.*"  => "required|string|distinct",
+        ]);
+        $course = Course::find($request->course_id);
+        if(!$course) {
+            return response()->json([
+                "message" => "Course not found",
+            ]); 
+        };
+
+        foreach ($request->instructors as $email) {
+            $id = User::where('email', '=', $email)->where('type', '=', 'instructor')->get(['_id']);
+            $id = $id[0]->_id;
+            
+            foreach($course->instructors as $instructor_id) {
+                if($instructor_id['id']==$id) {
+                    return response()->json([
+                        "message" => "Instructor already assigned",
+                    ]); 
+                }
+            }
+            Course::where('_id','=',$request->course_id)->push('instructors', array( 'id' => $id[0]->_id ));
+        };
+
+        return response()->json([
+            "status" => 1,
+            "message" => "User registered successfully",
         ], 200);
     }
 }
