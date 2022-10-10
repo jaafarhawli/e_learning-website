@@ -10,12 +10,10 @@ use App\Http\Controllers\StudentController;
 Route::group(["prefix"=> "v1"], function() {
 
     Route::post('login', [AuthController::class, "login"]);
-    
-    Route::post('logout', [AuthController::class, "logout"]);
 
 
 
-    
+    // Admin functions
     Route::post('add_admin', [AdminController::class, "addAdmin"]);
     
     Route::post('add_student', [AdminController::class, "addStudent"]);
@@ -46,7 +44,7 @@ Route::group(["prefix"=> "v1"], function() {
     
     
     
-    
+    // Instructor functions
     Route::post('enroll_student', [InstructorController::class, "enrollStudent"]);
     
     Route::post('add_assignment', [InstructorController::class, "addAssignment"]);
@@ -66,7 +64,7 @@ Route::group(["prefix"=> "v1"], function() {
     
     
     
-    
+    // Student functions
     Route::get('view_student_courses/{id}', [StudentController::class, "viewStudentCourses"]);
 
     Route::get('view_course_assignments/{id}', [StudentController::class, "viewCourseAssignments"]);
@@ -77,6 +75,9 @@ Route::group(["prefix"=> "v1"], function() {
     
     Route::post('submit_assignment', [StudentController::class, "submitAssignment"]);
 
+    
+    
+    
     Route::group(["middleware" => "auth:api"], function() {});
 
 });
