@@ -11,9 +11,18 @@ use App\Models\Course;
 use App\Models\Assignment;
 use App\Models\Announcement;
 use App\Models\Submission;
+use App\Http\Middleware\StudentAccess;
+use Illuminate\Support\Facades\Auth;
+
 
 class StudentController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['viewAnnouncements']]);
+    }
+
     // View all courses the student is enrolled in
     function viewStudentCourses($id) {
         $courses = Course::where('students','=',$id)->get();
@@ -29,13 +38,11 @@ class StudentController extends Controller
     // View all announcements in the enrolled courses
     function viewAnnouncements($id) {
         $courses = Course::where('students','=',$id)->get();
-        $announcements = [];
+        $course_ids = [];
         foreach($courses as $course) {
-            $announcement = Announcement::where('course_id','=', $course->_id);
-            if($announcement) {
-                array_push($announcements, $announcement);
-            }
+            array_push($course_ids, $course->_id);
         }
+        $announcements = Announcement::whereIn('course_id', $course_ids)->orderBy('time', 'desc')->get();
         return $announcements;
     }
 

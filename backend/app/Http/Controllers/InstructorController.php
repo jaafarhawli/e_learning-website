@@ -11,6 +11,7 @@ use App\Models\Course;
 use App\Models\Assignment;
 use App\Models\Announcement;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Auth;
 
 class InstructorController extends Controller
 {
@@ -110,7 +111,7 @@ class InstructorController extends Controller
         $announcement->title = $title;
         $announcement->assignment_content = $content;
         $announcement->time = $time;
-        $user->save();
+        $announcement->save();
 
         Course::where('_id','=',$course_id)->push('announcements', $announcement->_id);
 
