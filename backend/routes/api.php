@@ -61,6 +61,8 @@ Route::group(["prefix"=> "v1"], function() {
     
     Route::get('view_instructor_assignments/{id}', [InstructorController::class, "viewInstructorAssignments"]);
     
+    Route::get('view_assignment_submissions/{id}', [InstructorController::class, "viewAssignmentSubmissions"]);
+    
     
     
     
@@ -72,6 +74,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::get('view_announcements/{id}', [StudentController::class, "viewAnnouncements"]);
     
     Route::get('view_assignments/{id}', [StudentController::class, "viewAssignments"]);
+    
+    Route::post('submit_assignment', [StudentController::class, "submitAssignment"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 

@@ -72,5 +72,4 @@ class StudentController extends Controller
             "message" => "Submission added successfully",
         ], 200);
     }
-    
 }

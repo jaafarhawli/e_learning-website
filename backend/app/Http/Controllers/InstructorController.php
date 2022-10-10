@@ -131,12 +131,17 @@ class InstructorController extends Controller
     }
 
     function viewInstructorAnnouncements($id) {
-        $assignments = Announcement::where('instructor_id', '=', $id);
+        $assignments = Announcement::where('instructor_id', '=', $id)->get();
         return $assignments;
     }
 
     function viewInstructorAssignments($id) {
-        $assignments = Assignment::where('instructor_id', '=', $id);
+        $assignments = Assignment::where('instructor_id', '=', $id)->get();
         return $assignments;
+    }
+
+    function viewAssignmentSubmissions($id) {
+        $submissions = Submission::where('assignment_id','=',$id)->get();
+        return $submissions;
     }
 }
