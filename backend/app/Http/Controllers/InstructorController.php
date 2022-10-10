@@ -14,12 +14,14 @@ use App\Models\Submission;
 
 class InstructorController extends Controller
 {
+    // Enroll student/s in a course
     function enrollStudent(Request $request) {
         $request->validate([
             "course_id" => "required",
             "students" => "required|array",
             "students.*"  => "required|string|distinct",
         ]);
+        // Check if couse exists
         $course = Course::find($request->course_id);
         if(!$course) {
             return response()->json([
@@ -27,10 +29,13 @@ class InstructorController extends Controller
             ]); 
         };
         
+        // Loop over students
         foreach ($request->students as $email) {
+            // Get student id from email
             $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
             $id = $id[0]->_id;
             
+            // Check if student is already assigned to the course
             foreach($course->students as $student_id) {
                 if($student_id==$id) {
                     return response()->json([
@@ -39,7 +44,9 @@ class InstructorController extends Controller
                     ]); 
                 }
             }
+            // Add course to students collection
             Student::where('_id','=',$id)->push('courses', $request->course_id);
+            // Add student to courses collection
             Course::where('_id','=',$request->course_id)->push('students', $id);
         };
 
@@ -49,6 +56,7 @@ class InstructorController extends Controller
         ], 200);
     }
 
+    // Add new assignment within a course
     function addAssignment(Request $request) {
         $request->validate([
             "course_id" => "required",
@@ -81,6 +89,7 @@ class InstructorController extends Controller
         ], 200);
     }
     
+    // Add new announcement within a course
     function addAnnouncement(Request $request) {
         $request->validate([
             "course_id" => "required",
@@ -111,11 +120,13 @@ class InstructorController extends Controller
         ], 200);
     }
 
+    // View all courses given by the instructor
     function viewCourses($id) {
         $courses = Course::where('instructors','=',$id)->get();
         return $courses;
     }
 
+    // View students inside each course
     function viewStudentsInCourse($id) {
         $students = Student::where('courses', '=', $id)->get();
 
@@ -130,16 +141,19 @@ class InstructorController extends Controller
             "data" => $students]);
     }
 
+    // View the instructor's announcements
     function viewInstructorAnnouncements($id) {
         $assignments = Announcement::where('instructor_id', '=', $id)->get();
         return $assignments;
     }
 
+    // View the instructor's assignments
     function viewInstructorAssignments($id) {
         $assignments = Assignment::where('instructor_id', '=', $id)->get();
         return $assignments;
     }
 
+    // View all submissions for each assignment
     function viewAssignmentSubmissions($id) {
         $submissions = Submission::where('assignment_id','=',$id)->get();
         return $submissions;

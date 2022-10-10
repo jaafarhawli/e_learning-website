@@ -11,6 +11,7 @@ use App\Models\Course;
 
 class AdminController extends Controller
 {
+    // Add a new admin
     function addAdmin(Request $request) {
         $request->validate([
             "name" => "required",
@@ -18,6 +19,7 @@ class AdminController extends Controller
             "password" => "required|min:8|",
         ]);
 
+        // Add to users table
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -25,11 +27,9 @@ class AdminController extends Controller
         $user->type = 'admin';
         $user->save();
 
+        // Add to admins table
         $admin = new Admin();
         $admin->_id = $user->_id;
-        // $admin->students = [];
-        // $admin->instructors = [];
-        // $admin->courses = [];
         $admin->save();
 
         return response()->json([
@@ -38,6 +38,7 @@ class AdminController extends Controller
         ], 200);
     }
 
+    // Add a new student
     function addStudent(Request $request) {
         $request->validate([
             "admin_id" => "required",
@@ -46,6 +47,7 @@ class AdminController extends Controller
             "password" => "required|min:8|",
         ]);
 
+        // Add to users table
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -53,6 +55,7 @@ class AdminController extends Controller
         $user->type = 'student';
         $user->save();
 
+        // Add to students table
         $student = new Student();
         $student->_id = $user->_id;
         $student->admin_id = $request->admin_id;
@@ -60,14 +63,13 @@ class AdminController extends Controller
         $student->submissions = [];
         $student->save();
 
-        // Admin::where('_id','=',$request->admin_id)->push('students', array( 'id' => $user->_id ));
-
         return response()->json([
             "status" => 1,
             "message" => "Student added successfully"
         ], 200);
     }
 
+    // Add a new instructor
     function addInstructor(Request $request) {
         $request->validate([
             "admin_id" => "required",
@@ -76,13 +78,7 @@ class AdminController extends Controller
             "password" => "required|min:8|",
         ]);
 
-        $instructor_email = User::where('email', '=', $request->email)->get();
-        if(count($instructor_email)>0) {
-            return response()->json([
-                "message" => "Email already exists in the database",
-            ]); 
-        }
-
+        // Add to users table
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
@@ -90,13 +86,12 @@ class AdminController extends Controller
         $user->type = 'instructor';
         $user->save();
 
+        // Add to ui==instructors table
         $instructor = new Instructor();
         $instructor->_id = $user->_id;
         $instructor->admin_id = $request->admin_id;
         $instructor->courses = [];
         $instructor->save();
-
-        // Admin::where('_id','=',$user->admin_id)->push('instructors', array( 'id' => $user->_id ));
 
         return response()->json([
             "status" => 1,
@@ -104,6 +99,7 @@ class AdminController extends Controller
         ], 200);
     }
     
+    // Add a new course
     function addCourse(Request $request) {
         $request->validate([
             "admin_id" => "required",
@@ -119,37 +115,21 @@ class AdminController extends Controller
         $course->announcements = [];
         $course->save();
 
-        // foreach ($request->instructors as $email) {
-        //     $id = User::select('_id')->where('email', '=', $email)->where('type', '=', 'instructor')->get();
-            
-        //     if(count($id)>0) {
-        //         array_push($instructors_ids,  array('id' => $id[0]->_id));
-        //         Instructor::where('_id','=', $id[0]->_id)->push('courses', array( 'id' => $course->_id ));
-        //     }
-        // };
-
-        // foreach ($request->students as $email) {
-        //     $id = User::where('email', '=', $email)->where('type', '=', 'student')->get(['_id']);
-        //     if(count($id)>0) {
-        //         array_push($students_ids, array('id' => $id[0]->_id));
-        //         Student::where('_id','=', $id[0]->_id)->push('courses', array( 'id' => $course->_id ));
-        //     }
-        // };
-
-        // Admin::where('_id','=',$request->admin_id)->push('courses', array( 'id' => $course->_id ));
-
         return response()->json([
             "status" => 1,
             "message" => "Course added successfully",
         ], 200);
     }
 
+    // Assign instructor/s to course
     function assignInstructor(Request $request) {
         $request->validate([
             "course_id" => "required",
             "instructors" => "required|array",
             "instructors.*"  => "required|string|distinct",
         ]);
+
+        // Check if course exists in the database
         $course = Course::find($request->course_id);
         if(!$course) {
             return response()->json([
@@ -157,10 +137,13 @@ class AdminController extends Controller
             ]); 
         };
 
+        // Loop over instructors
         foreach ($request->instructors as $email) {
+            // Get instructor id from the given email
             $id = User::where('email', '=', $email)->where('type', '=', 'instructor')->get(['_id']);
             $id = $id[0]->_id;
             
+            // Loop over course instructors to make sure not to add duplicates 
             foreach($course->instructors as $instructor_id) {
                 if($instructor_id['id']==$id) {
                     return response()->json([
@@ -168,7 +151,9 @@ class AdminController extends Controller
                     ]); 
                 }
             }
+            // Add course to instructors collection
             Instructor::where('_id','=',$id)->push('courses', $request->course_id);
+            // Add instructor to courses collection
             Course::where('_id','=',$request->course_id)->push('instructors', $id);
         };
 
@@ -178,9 +163,10 @@ class AdminController extends Controller
         ], 200);
     }
 
+    // View all instructors
     function viewInstructors () {
         $instructors = Instructor::all();
-
+        // Add the name and email of each instructor to the result
         foreach($instructors as $instructor) {
             $data = User::where('_id','=',$instructor->_id)->get(['name','email']);
             $instructor['name'] = $data[0]->name;
@@ -192,6 +178,7 @@ class AdminController extends Controller
             "data" => $instructors]);
     }
 
+    // View the selected instructor
     function viewInstructor($id) {
         $instructor = Instructor::find($id);
         if(!$instructor) {
@@ -207,6 +194,7 @@ class AdminController extends Controller
             "data" => $instructor]);
     }
     
+    // View all students
     function viewStudents () {
         $students = Student::all();
 
@@ -221,6 +209,7 @@ class AdminController extends Controller
             "data" => $students]);
     }
 
+    // View selected student
     function viewStudent($id) {
         $student = Student::find($id);
         if(!$student) {
@@ -236,6 +225,7 @@ class AdminController extends Controller
             "data" => $student]);
     }
     
+    // View all courses
     function viewCourses () {
         $courses = Course::all();
         
@@ -244,6 +234,7 @@ class AdminController extends Controller
             "data" => $courses]);
     }
     
+    // View selected course
     function viewCourse ($id) {
         $course = Course::find($id);
         
@@ -252,6 +243,7 @@ class AdminController extends Controller
             "data" => $course]);
     }
 
+    // Remove selected student
     function removeStudent(Request $request) {
         $id = $request->id;
         $student = Student::find($id);
@@ -259,11 +251,14 @@ class AdminController extends Controller
             return response()->json([
                 "message" => "Couldn't find the student"]);
         }
+        // Delete from students table
         $student->delete();
 
+        // Delete from users table
         $user = User::find($id);
         $user->delete();
 
+        // Delete from courses table
         $courses = Course::all();
         foreach($courses as $course) {
             foreach($course->students as $student) {
@@ -278,6 +273,7 @@ class AdminController extends Controller
         ], 200);
     }
 
+    // Remove selected instructor
     function removeInstructor(Request $request) {
         $id = $request->id;
         $instructor = Instructor::find($id);
@@ -304,6 +300,7 @@ class AdminController extends Controller
         ], 200);
     }
     
+    // Remove selected course
     function removeCourse(Request $request) {
         $id = $request->id;
         $course = Course::find($id);

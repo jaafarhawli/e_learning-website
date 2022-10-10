@@ -14,16 +14,19 @@ use App\Models\Submission;
 
 class StudentController extends Controller
 {
+    // View all courses the student is enrolled in
     function viewStudentCourses($id) {
         $courses = Course::where('students','=',$id)->get();
         return $courses;
     }
 
+    // View all assignments in the enrolled course
     function viewCourseAssignments($id) {
         $assignments = Assignment::where('course_id','=',$id)->get();
         return $assignments;
     }
     
+    // View all announcements in the enrolled courses
     function viewAnnouncements($id) {
         $courses = Course::where('students','=',$id)->get();
         $announcements = [];
@@ -36,6 +39,7 @@ class StudentController extends Controller
         return $announcements;
     }
 
+    // View all assignments for the all enrolled courses
     function viewAssignments($id) {
         $courses = Course::where('students','=',$id)->get();
         $assignments = [];
@@ -48,6 +52,7 @@ class StudentController extends Controller
         return $assignments;
     }
 
+    // Submit assignment 
     function submitAssignment(Request $request) {
         $request->validate([
             "assignment_id" => "required",
