@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\Assignment;
+use App\Models\Announcement;
 
 class StudentController extends Controller
 {
@@ -22,12 +24,14 @@ class StudentController extends Controller
     }
     
     function viewAnnouncements($id) {
-        $courses = viewStudentCourses($id);
-        $assignments = [];
+        $courses = Course::where('students','=',$id)->get();
+        $announcements = [];
         foreach($courses as $course) {
-            $assignment = viewCourseAssignments($course->_id);
-            array_push($assignments, $assignment);
+            $announcement = Announcement::where('course_id','=', $course->_id);
+            if($announcement) {
+                array_push($announcements, $announcement);
+            }
         }
-        return $assignments;
+        return $announcements;
     }
 }
