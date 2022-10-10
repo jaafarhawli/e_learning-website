@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Instructor;
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\Assignment;
+use App\Models\Announcement;
 
 class InstructorController extends Controller
 {
@@ -84,17 +86,22 @@ class InstructorController extends Controller
             "title" => "required",
             "announcement_content" => "required",
         ]);
-        $objectID = new ObjectID();
 
         $course_id = $request->course_id;
         $instructor_id = $request->instructor_id;
-        $name = User::find($instructor_id);
-        $name = $name->name;
         $title = $request->title;
         $content = $request->announcement_content;
         $time = date('Y-m-d h:i:s');
 
-        Course::where('_id','=',$course_id)->push('announcements', array( '_id' => $objectID,'instructor_id'=> $instructor_id,'instructor'=> $name,'content' => $content, 'title' => $title, 'time' => $time ));
+        $announcement = new Announcement();
+        $announcement->course_id = $course_id;
+        $announcement->instructor_id = $instructor_id;
+        $announcement->title = $title;
+        $announcement->assignment_content = $content;
+        $announcement->time = $time;
+        $user->save();
+
+        Course::where('_id','=',$course_id)->push('announcements', $announcement->_id);
 
         return response()->json([
             "status" => 1,

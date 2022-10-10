@@ -34,7 +34,7 @@ class AdminController extends Controller
 
         return response()->json([
             "status" => 1,
-            "message" => "User registered successfully"
+            "message" => "Admin added successfully"
         ], 200);
     }
 
@@ -64,7 +64,7 @@ class AdminController extends Controller
 
         return response()->json([
             "status" => 1,
-            "message" => "User registered successfully"
+            "message" => "Student added successfully"
         ], 200);
     }
 
@@ -100,7 +100,7 @@ class AdminController extends Controller
 
         return response()->json([
             "status" => 1,
-            "message" => "User registered successfully"
+            "message" => "Instructor added successfully"
         ], 200);
     }
     
@@ -140,7 +140,7 @@ class AdminController extends Controller
 
         return response()->json([
             "status" => 1,
-            "message" => "User registered successfully",
+            "message" => "Course added successfully",
         ], 200);
     }
 
@@ -174,7 +174,7 @@ class AdminController extends Controller
 
         return response()->json([
             "status" => 1,
-            "message" => "User registered successfully",
+            "message" => "Instructor assigned to course successfully",
         ], 200);
     }
 
