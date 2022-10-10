@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\Assignment;
 use App\Models\Announcement;
+use App\Models\Submission;
 
 class StudentController extends Controller
 {
@@ -34,4 +35,18 @@ class StudentController extends Controller
         }
         return $announcements;
     }
+
+    function viewAssignments($id) {
+        $courses = Course::where('students','=',$id)->get();
+        $assignments = [];
+        foreach($courses as $course) {
+            $assignment = Assignment::where('course_id','=', $course->_id);
+            if($assignment) {
+                array_push($assignments, $assignment);
+            }
+        }
+        return $assignments;
+    }
+
+    
 }

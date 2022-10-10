@@ -70,6 +70,8 @@ Route::group(["prefix"=> "v1"], function() {
     Route::get('view_course_assignments/{id}', [StudentController::class, "viewCourseAssignments"]);
     
     Route::get('view_announcements/{id}', [StudentController::class, "viewAnnouncements"]);
+    
+    Route::get('view_assignments/{id}', [StudentController::class, "viewAssignments"]);
 
     Route::group(["middleware" => "auth:api"], function() {});
 
