@@ -20,4 +20,14 @@ class StudentController extends Controller
         $assignments = Course::where('_id','=',$id)->get('assignments');
         return $assignments;
     }
+    
+    function viewAnnouncements($id) {
+        $courses = viewStudentCourses($id);
+        $assignments = [];
+        foreach($courses as $course) {
+            $assignment = viewCourseAssignments($course->_id);
+            array_push($assignments, $assignment);
+        }
+        return $assignments;
+    }
 }
