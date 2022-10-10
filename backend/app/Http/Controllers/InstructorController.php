@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\Course;
 use App\Models\Assignment;
 use App\Models\Announcement;
+use App\Models\Submission;
 
 class InstructorController extends Controller
 {
@@ -69,6 +70,7 @@ class InstructorController extends Controller
         $assignment->name = $name;
         $assignment->assignment_content = $content;
         $assignment->due_date = $due;
+        $assignment->submissions = [];
         $user->save();
 
         Course::where('_id','=',$course_id)->push('assignments', $assignment->_id);

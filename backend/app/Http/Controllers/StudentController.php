@@ -48,5 +48,29 @@ class StudentController extends Controller
         return $assignments;
     }
 
+    function submitAssignment(Request $request) {
+        $request->validate([
+            "assignment_id" => "required",
+            "student_id" => "required",
+            "submission_file"  => "required",
+        ]);
+
+        $time = date('Y-m-d h:i:s');
+
+        $submission = new Submission();
+        $submission->assignment_id = $request->assignment_id;
+        $submission->student_id = $request->student_id;
+        $submission->submission_file = $request->submission_file;
+        $submission->time = $time;
+        $user->save();
+
+        Student::where('_id','=',$request->student_id)->push('submissions', $submission->_id);
+        Assignment::where('_id','=',$request->assignment_id)->push('submissions', $submission->_id);
+
+        return response()->json([
+            "status" => 1,
+            "message" => "Submission added successfully",
+        ], 200);
+    }
     
 }

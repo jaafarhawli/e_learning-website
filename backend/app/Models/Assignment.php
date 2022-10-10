@@ -14,7 +14,7 @@ class Assignment extends Eloquent
     protected $collection = 'assignments';
 
     protected $fillable = [
-        'course_id', 'instructor_id', 'assignment_name', 'assignment_content', 'due_date'
+        'course_id', 'instructor_id', 'assignment_name', 'assignment_content', 'due_date', 'submissions'
     ];
 
 }
