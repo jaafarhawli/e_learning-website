@@ -54,23 +54,22 @@ class InstructorController extends Controller
             "assignment_content" => "required|string",
             "due_date"  => "required|date_format:Y-m-d",
         ]);
-        $objectID = new ObjectID();
 
         $course_id = $request->course_id;
         $instructor_id = $request->instructor_id;
         $name = $request->assignment_name;
-        $assignment = $request->assignment_content;
+        $content = $request->assignment_content;
         $due = $request->due_date;
 
-        $assignments = Course::where('_id','=',$course_id)->get(['assignments']);
-        foreach($assignments[0]->assignments as $element) {
-            if($element['name'] == $name) {
-                return response()->json([
-                    "message" => "Assignment already exists",
-                ],);
-            }
-        }
-        Course::where('_id','=',$course_id)->push('assignments', array( '_id' => $objectID,'instructor_id'=> $instructor_id, 'name' => $name, 'content' => $assignment, 'due' => $due ));
+        $assignment = new Assignment();
+        $assignment->course_id = $course_id;
+        $assignment->instructor_id = $instructor_id;
+        $assignment->name = $name;
+        $assignment->assignment_content = $content;
+        $assignment->due_date = $due;
+        $user->save();
+
+        Course::where('_id','=',$course_id)->push('assignments', $assignment->_id);
 
         return response()->json([
             "status" => 1,
