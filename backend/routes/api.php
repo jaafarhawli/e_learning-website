@@ -11,7 +11,7 @@ Route::group(["prefix"=> "v1"], function() {
 
     Route::post('login', [AuthController::class, "login"]);
 
-    Route::group(["middleware" => "auth:api"], function() {
+    Route::group(["middleware" => "user"], function() {
         
         Route::group(["middleware" => "admin"], function() {
             // Admin functions
@@ -44,7 +44,7 @@ Route::group(["prefix"=> "v1"], function() {
             Route::get('view_course/{id}', [AdminController::class, "viewCourse"]);
         });
         
-        // Route::group(["middleware" => "instructor"], function() {
+        Route::group(["middleware" => "instructor"], function() {
             // Instructor functions
             Route::post('enroll_student', [InstructorController::class, "enrollStudent"]);
             
@@ -61,7 +61,7 @@ Route::group(["prefix"=> "v1"], function() {
             Route::get('view_instructor_assignments/{id}', [InstructorController::class, "viewInstructorAssignments"]);
             
             Route::get('view_assignment_submissions/{id}', [InstructorController::class, "viewAssignmentSubmissions"]);
-        // });
+        });
         
         Route::group(["middleware" => "student"], function() {
             // Student functions
