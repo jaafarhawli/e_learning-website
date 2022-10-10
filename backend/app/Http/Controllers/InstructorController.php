@@ -129,18 +129,8 @@ class InstructorController extends Controller
     }
 
     function viewInstructorAnnouncements($id) {
-        $result = [];
-        $courses = Course::where('instructors','=',$id)->get();
-        foreach($courses as $course) {
-            foreach($course->announcements as $announcement) {
-                if($announcement) {
-                    if($announcement['instructor_id']==$id) {
-                        array_push($result, $announcement);
-                    }
-                }
-            }
-        }
-        return $result;
+        $assignments = Announcement::where('instructor_id', '=', $id);
+        return $assignments;
     }
 
     function viewInstructorAssignments($id) {
