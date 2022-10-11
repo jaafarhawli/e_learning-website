@@ -78,3 +78,9 @@ a:link {
 .panel-icon {
   color: white;
 }
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+  color: black;
+}
