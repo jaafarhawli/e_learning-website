@@ -10,7 +10,7 @@ export const PanelComponent = [
 
   {
     title: 'Dashboard',
-    path: '/',
+    path: '',
     icon: <MdAdminPanelSettings className="panel-icon" />,
   },
 
@@ -45,17 +45,3 @@ export const PanelComponent = [
   }
 ];
 
-// export {PanelComponent};
-
-// const PanelComponent = ({text, icon}) => {
-//   const [panelComponenet, setPanelComponent] = useState();
-  
-//   return (
-//     <div className='panel-component-container flex pointer'>
-//       {icon}
-//       <p className="panel-admin-name">{text}</p>
-//     </div>
-//   );
-// }
-
-// export default PanelComponent;
