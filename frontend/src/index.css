@@ -55,8 +55,26 @@
   width: 100%;
   padding: 15px 25px;
   transition: 300ms;
+  
 }
 
 .panel-component-container:hover {
   background-color: rgb(201, 201, 201, .4);
+}
+
+.panel-component-link {
+  width: 100%; 
+}
+
+.panel-admin-name {
+  color: white;
+}
+
+a:link {
+  color: white;
+  text-decoration:none;
+}
+
+.panel-icon {
+  color: white;
 }

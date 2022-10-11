@@ -12,12 +12,24 @@ const Panel = () => {
   return (
     <div className="admin-panel flex column pointer">
         <h1 className="panel-component panel-header">Admin</h1>
-        <PanelComponent text='Jaafar Hawli' icon={<MdAdminPanelSettings className="panel-icon" />} />
-        <PanelComponent text='Instructors' icon={<FaUserTie className="panel-icon" />} />
-        <PanelComponent text='Students' icon={<FaUserGraduate className="panel-icon" />} />
-        <PanelComponent text='Courses' icon={<FaBook className="panel-icon" />} />
-        <PanelComponent text='Announcements' icon={<AiFillSound className="panel-icon" />} />
-        <PanelComponent text='Logout' icon={<FiLogOut className="panel-icon" />} />
+        <Link className='panel-component-link' to='#' >
+          <PanelComponent text='Jaafar Hawli' icon={<MdAdminPanelSettings className="panel-icon" />} />
+        </Link>
+        <Link className='panel-component-link' >
+          <PanelComponent text='Instructors' icon={<FaUserTie className="panel-icon" />} />
+        </Link>
+        <Link className='panel-component-link' >
+          <PanelComponent text='Students' icon={<FaUserGraduate className="panel-icon" />} />
+        </Link>
+        <Link className='panel-component-link' >
+          <PanelComponent text='Courses' icon={<FaBook className="panel-icon" />} />
+        </Link>
+        <Link className='panel-component-link' >
+          <PanelComponent text='Announcements' icon={<AiFillSound className="panel-icon" />} />
+        </Link>
+        <Link className='panel-component-link' >
+          <PanelComponent text='Logout' icon={<FiLogOut className="panel-icon" />} />
+        </Link> 
     </div>
   );
 }
