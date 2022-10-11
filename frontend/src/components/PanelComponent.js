@@ -4,13 +4,13 @@ import {FaUserTie} from "react-icons/fa";
 import {FaUserGraduate} from "react-icons/fa";
 import {FaBook} from "react-icons/fa";
 import {AiFillSound} from "react-icons/ai";
-import {FiLogOut} from "react-icons/fi";
+
 
 export const PanelComponent = [
 
   {
     title: 'Dashboard',
-    path: '',
+    path: '/dashboard',
     icon: <MdAdminPanelSettings className="panel-icon" />,
   },
 
@@ -38,10 +38,5 @@ export const PanelComponent = [
     icon: <AiFillSound className="panel-icon" />,
   },
   
-  {
-    title: 'Logout',
-    path: '/logout',
-    icon: <FiLogOut className="panel-icon" />,
-  }
 ];
 

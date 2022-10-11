@@ -1,8 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
 import axios from './api/axios';
+import {useNavigate} from 'react-router-dom';
 
-const Login = ({ setToken }) => {
+const Login = () => {
+    
+    const navigate = useNavigate();
 
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -21,7 +24,7 @@ const Login = ({ setToken }) => {
                 localStorage.setItem('name', data.data.user.name);
                 localStorage.setItem('email', data.data.user.email);
                 localStorage.setItem('type', data.data.user.type);
-                setToken(token);          
+                navigate("/dashboard");
             }
         } catch (error) {
             console.log(error);

@@ -1,12 +1,23 @@
 import React from 'react';
 import { useState } from 'react';
-import {Route, Routes, BrowserRouter} from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import Login from './Login';
-
+import Instructors from './pages/Instructors';
+import Students from './pages/Students';
+import Courses from './pages/Courses';
+import Announcements from './pages/Announcements';
 
 function App() {
-  const [token, setToken] = useState();
+
+  const getToken = () => {
+    const token = localStorage.getItem('token');
+    if(token) {
+      return token;
+    }
+    
+  };
+  const [token, setToken] = useState(getToken());
 
   if(!token) {
     return <Login setToken={setToken} />
@@ -14,12 +25,14 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
         <Routes>
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/instructors' element={<Instructors />} />
+          <Route path='/courses' element={<Courses />} />
+          <Route path='/students' element={<Students />} />
+          <Route path='/announcements' element={<Announcements />} />
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }
