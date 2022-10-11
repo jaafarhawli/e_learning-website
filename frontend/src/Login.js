@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import axios from './api/axios';
 
 const Login = ({ setToken }) => {
@@ -8,14 +7,22 @@ const Login = ({ setToken }) => {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
 
-    const userLogin = async () => {
+    const handleSubmit = async () => {
         const form = {
             email: username,
             password: password
         };
         try {
             const data = await axios.post('/api/v1/login', form);
-            console.log(data);
+            const token = data.data.authorisation.token;
+            if(token) {
+                localStorage.setItem('token', token);
+                localStorage.setItem('id', data.data.user._id);
+                localStorage.setItem('name', data.data.user.name);
+                localStorage.setItem('email', data.data.user.email);
+                localStorage.setItem('type', data.data.user.type);
+                setToken(token);          
+            }
         } catch (error) {
             console.log(error);
         }
@@ -34,7 +41,7 @@ const Login = ({ setToken }) => {
               <input type="password" onChange={e => setPassword(e.target.value)} />
             </label>
             <div>
-              <button type="button" onClick={userLogin}>Submit</button>
+              <button type="button" onClick={handleSubmit}>Submit</button>
             </div>
           </form>
         </div>
@@ -42,6 +49,3 @@ const Login = ({ setToken }) => {
 }
 
 export default Login;
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }

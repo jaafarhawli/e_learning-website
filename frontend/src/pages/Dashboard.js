@@ -1,10 +1,13 @@
 import React from 'react';
 import {BsPlusLg} from 'react-icons/bs'
+import Panel from '../components/Panel';
 
 const Dashboard = () => {
   
   return (
-    <div className='dashboard'>
+    <div className='flex'>
+      <Panel />
+      <div className='dashboard'>
       <h1>Admins</h1>
       <div className='dashboard-components flex shadow'>
         <div className='admin-name'>
@@ -21,6 +24,7 @@ const Dashboard = () => {
       <button className='add-button'>
         <BsPlusLg className='add-icon'/>
       </button>
+     </div>
     </div>
   );
 }
