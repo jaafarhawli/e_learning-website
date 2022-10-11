@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Instructors from './pages/Instructors';
 import Students from './pages/Students';
 import Courses from './pages/Courses';
+import Announcements from './pages/Announcements';
 
 
 
