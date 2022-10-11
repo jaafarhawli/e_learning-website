@@ -15,12 +15,11 @@ function App() {
       <Router>
         <Panel />
         <Routes>
-          <Route path='/dashboard' exact element={<Dashboard />} />
+          <Route path='/' exact element={<Dashboard />} />
           <Route path='/instructors' element={<Instructors />} />
           <Route path='/students' element={<Students />} />
-          <Route path='/courses' elementt={<Courses />} />
+          <Route path='/courses' element={<Courses />} />
           <Route path='/announcements' element={<Announcements />} />
-          <Route path='/logout' element={<Logout />} />
         </Routes>
       </Router>
     </div>
