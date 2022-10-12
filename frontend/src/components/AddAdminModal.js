@@ -39,7 +39,7 @@ export default function AddAdminModal() {
       password: password 
     }
 		try {
-			const data = await axios.post('/api/v1/add_admin', form, {
+			await axios.post('/api/v1/add_admin', form, {
 				headers: {
 					Authorization: `bearer ${localStorage.token}`
 				}

@@ -1,11 +1,15 @@
 import React from 'react';
 import Panel from '../components/Panel';
+import ShowInstructors from '../components/ShowInstructors';
 
 const Instructors = () => {
   return (
     <div className='flex'>
       <Panel />
-      <h1>Hello from instructors</h1>
+      <div className='instructors'>
+      <h1>Instructors</h1>
+      <ShowInstructors />
+     </div>
     </div>
   );
 }

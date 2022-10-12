@@ -126,6 +126,7 @@ a:link {
   width: 100%;
 }
 
+.instructors,
 .dashboard {
   display: flex;
   flex-direction: column;

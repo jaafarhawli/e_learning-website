@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Panel from '../components/Panel';
 import Admins from '../components/Admins';
 import AddAdminModal from '../components/AddAdminModal';
