@@ -57,10 +57,10 @@ const Course = () => {
   return (
     <div className='flex'>
       <Panel />
-      <div className='dashboard'>
+      <div className='dashboard view-page'>
         <h1>Name: {Course.name}</h1>
-        <h2>Instructors:</h2>
-        <ul>
+        <h3>Instructors:</h3>
+        <ul className='view-list'>
         {CourseInstructors.map((user) => (
 						<li key={user._id} className='flex course-list'>
 							<p>{user.name}</p>
@@ -68,8 +68,8 @@ const Course = () => {
 						</li>
 			))}
         </ul>
-        <h2>Students:</h2>
-        <ul>
+        <h3>Students:</h3>
+        <ul className='view-list'>
         {CourseStudents.map((user) => (
 						<li key={user._id} className='flex course-list'>
 							<p>{user.name}</p>

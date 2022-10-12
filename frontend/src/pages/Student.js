@@ -54,17 +54,19 @@ const Student = () => {
   return (
     <div className='flex'>
       <Panel />
-      <div className='dashboard'>
+      <div className='dashboard view-page'>
         <h1>Name: {student.name}</h1>
         <h2>Email: {student.email}</h2>
-        <h2>Courses:</h2>
-        <ul>
-        {studentCourses.map((user) => (
-						<li key={student._id}>
-							<p>{user.name}</p>
-						</li>
-			))}
-        </ul>
+        <div className='view-container'>
+            <h3>Courses:</h3>
+            <ul className='view-list'>
+            {studentCourses.map((user) => (
+		    				<li key={student._id}>
+		    					<p>{user.name}</p>
+		    				</li>
+		    	))}
+            </ul>
+        </div>
         <button className='delete-button' onClick={() => deleteStudent(student._id)}>
             <MdDeleteOutline className='delete-icon' />
         </button>
