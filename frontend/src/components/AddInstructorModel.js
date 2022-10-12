@@ -45,6 +45,8 @@ export default function AddInstructorModal() {
 					Authorization: `bearer ${localStorage.token}`
 				}
 			});
+            handleClose();
+            window.location.reload(false);
 		} catch (error) {
 			console.log(error);
 		}

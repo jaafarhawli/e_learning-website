@@ -1,5 +1,5 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {PanelComponent} from "./PanelComponent";
 import {FiLogOut} from "react-icons/fi";
 
@@ -22,16 +22,16 @@ const Panel = () => {
         <ul className="panel-list">
           {PanelComponent.map((item, index) => {
             return (         
-                <Link to={item.path} className="panel-component-link panel-component-container flex pointer" key={index}>
+                <NavLink to={item.path} className="panel-component-link panel-component-container flex pointer" key={index} activeclassname='active'>
                     {item.icon}
                     <p className="panel-admin-name">{item.title}</p>
-                </Link>
+                </NavLink>
             );
           })}
-                <Link to='/login' className="panel-component-link panel-component-container flex pointer" key={6} onClick={clear}>
+                <NavLink to='/login' className="panel-component-link panel-component-container flex pointer" key={6} onClick={clear}>
                     <FiLogOut className="panel-icon" />
                     <p className="panel-admin-name">Logout</p>
-                </Link>
+                </NavLink>
         </ul>
     </div>
   );
