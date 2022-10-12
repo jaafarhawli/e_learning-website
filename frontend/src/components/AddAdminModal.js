@@ -44,7 +44,6 @@ export default function AddAdminModal() {
 					Authorization: `bearer ${localStorage.token}`
 				}
 			});
-			console.log(data);
 		} catch (error) {
 			console.log(error);
 		}

@@ -2,11 +2,12 @@ import React from 'react';
 import axios from '../api/axios';
 import { useEffect, useState } from "react";
 
-const Admins = () => {
+
+ const Admins = () => {
 
     const [users, setUsers] = useState([]);
 
-	const showAdmins = async () => {
+    const showAdmins = async () => {
 		try {
 			const data = await axios.get('/api/v1/view_admins', {
 				headers: {
@@ -14,6 +15,7 @@ const Admins = () => {
 				}
 			});
 			setUsers(data.data.data) ;
+            return data.data.data;
 		} catch (error) {
 			console.log(error);
 		}
