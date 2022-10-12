@@ -170,6 +170,27 @@ a:link {
   transition: 300ms;
 }
 
+.delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background-color: red;
+  transition: 300ms;
+}
+
+.delete-button:hover {
+  background-color: rgb(178, 0, 0);
+}
+
+.delete-icon {
+  color: white;
+  font-size: 21px;
+}
+
 .add-icon {
   color: #dfe6fc;
 }

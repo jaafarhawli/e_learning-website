@@ -2,6 +2,7 @@ import React from 'react';
 import Panel from '../components/Panel';
 import axios from '../api/axios';
 import { useEffect, useState } from "react";
+import {MdDeleteOutline} from 'react-icons/md'
 
 const Instructor = () => {
 
@@ -44,7 +45,9 @@ const Instructor = () => {
 						</li>
 			))}
         </ul>
-        <button>Assign Course</button>
+        <button className='delete-button'>
+            <MdDeleteOutline className='delete-icon' />
+        </button>
       </div>
     </div>
   );
