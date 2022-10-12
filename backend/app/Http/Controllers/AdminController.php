@@ -107,9 +107,15 @@ class AdminController extends Controller
         $instructor->courses = [];
         $instructor->save();
 
+        $token = Auth::login($user);
+
         return response()->json([
             "status" => 1,
-            "message" => "Instructor added successfully"
+            "message" => "Instructor added successfully",
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
         ], 200);
     }
     
