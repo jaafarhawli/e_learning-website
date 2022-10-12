@@ -4,7 +4,7 @@ import {BsPlusLg} from 'react-icons/bs'
 import { useState } from 'react';
 import axios from '../api/axios';
 
-export default function AddAdminModal() {
+export default function AddAdminModal({isLoading}) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -53,8 +53,8 @@ export default function AddAdminModal() {
 	};
 
 
-  return (
-    <div>
+  return isLoading? ('') :
+    (<div>
       <button className='add-button' onClick={handleOpen}>
         <BsPlusLg className='add-icon'/>
       </button>

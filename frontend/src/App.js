@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import {Route, Routes} from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
+// import Dashboard from './pages/Dashboard';
 import Login from './Login';
 import Instructors from './pages/Instructors';
 import Students from './pages/Students';
@@ -9,6 +9,7 @@ import Courses from './pages/Courses';
 import Instructor from './pages/Instructor';
 import Student from './pages/Student';
 import Course from './pages/Course';
+import DashboardLoading from './pages/DashboardLoading';
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
     <div className="App">
         <Routes>
           <Route path='/login' element={<Login />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/dashboard' element={<DashboardLoading />} />
           <Route path='/instructors' element={<Instructors />} />
           <Route path='/courses' element={<Courses />} />
           <Route path='/students' element={<Students />} />

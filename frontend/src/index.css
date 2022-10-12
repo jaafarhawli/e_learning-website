@@ -343,3 +343,9 @@ a:link {
 .view-list {
   list-style-type:upper-roman !important;
 }
+
+.loader {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
