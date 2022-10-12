@@ -44,10 +44,9 @@ export default function AddAdminModal() {
 					Authorization: `bearer ${localStorage.token}`
 				}
 			});
-      console.log(data.data.authorisation.token);
-      // localStorage.token = 
-      // handleClose();
-      // window.location.reload(false);
+      localStorage.token = data.data.authorisation.token;
+      handleClose();
+      window.location.reload(false);
 		} catch (error) {
 			console.log(error);
 		}
