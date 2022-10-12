@@ -33,18 +33,22 @@ export default function AddAdminModal() {
         aria-describedby="modal-modal-description"
       >
           <div className='add-admin-modal flex column'>
-            <h1>Please Log In</h1>
-            <form>
+            <h1>Add admin</h1>
+            <form className='add-admin-form flex column'>
               <label>
-                <p>Username</p>
+                <p>Name</p>
                 <input type="text" />
+              </label>
+              <label>
+                <p>Email</p>
+                <input type="email" />
               </label>
               <label>
                 <p>Password</p>
                 <input type="password" />
               </label>
               <div>
-                <button type="button">Submit</button>
+                <button type="button" className='button'>Submit</button>
               </div>
             </form>
           </div>

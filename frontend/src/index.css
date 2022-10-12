@@ -41,6 +41,20 @@ button:active {
 	transition: transform 200ms;
 }
 
+.button {
+	width: 130px;
+	height: 40px;
+	background-color: #4191f9;
+	border-radius: 100px;
+	color: white;
+	font-size: 18px;
+	border: none;
+	cursor: pointer;
+	transition: 300ms all;
+	user-select: none;
+}
+
+
 
 /* Admin Panel */
 .admin-panel {
@@ -179,10 +193,25 @@ a:link {
 
 .add-admin-modal {
   background-color: #9399ad;
-  width: 300px;
+  /* width: 300px; */
   position: absolute;
   top: 50%;
   left: 50%;
   margin-top: -150px;
 	margin-left: -150px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 40px;
+}
+
+.add-admin-form {
+  gap: 20px;
+  align-items: center;
+}
+
+.add-admin-form input {
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
 }
