@@ -3,7 +3,6 @@ import {MdAdminPanelSettings} from "react-icons/md";
 import {FaUserTie} from "react-icons/fa";
 import {FaUserGraduate} from "react-icons/fa";
 import {FaBook} from "react-icons/fa";
-import {AiFillSound} from "react-icons/ai";
 
 
 export const PanelComponent = [
@@ -32,11 +31,5 @@ export const PanelComponent = [
     icon: <FaBook className="panel-icon" />,
   },
 
-  {
-    title: 'Announcements',
-    path: '/announcements',
-    icon: <AiFillSound className="panel-icon" />,
-  },
-  
 ];
 
