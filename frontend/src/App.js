@@ -8,6 +8,7 @@ import Students from './pages/Students';
 import Courses from './pages/Courses';
 import Announcements from './pages/Announcements';
 import Instructor from './pages/Instructor';
+import Student from './pages/Student';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/students' element={<Students />} />
           <Route path='/announcements' element={<Announcements />} />
           <Route path='/instructors/instructor' element={<Instructor />} />
+          <Route path='/students/student' element={<Student />} />
         </Routes>
     </div>
   );

@@ -251,6 +251,8 @@ class AdminController extends Controller
         $data = User::where('_id','=',$id)->get(['name','email']);
         $student['name'] = $data[0]->name;
         $student['email'] = $data[0]->email;
+        $courses = Course::whereIn('_id', $student->courses)->get(['name']);
+        $student['courses'] = $courses;
 
         return response()->json([
             "status" => 1,
@@ -294,7 +296,7 @@ class AdminController extends Controller
         $courses = Course::all();
         foreach($courses as $course) {
             foreach($course->students as $student) {
-                if($student['id']==$id) {
+                if($student==$id) {
                     Course::where('_id','=',$course->_id)->pull('students', $student);
                 }
             }       
