@@ -129,6 +129,7 @@ a:link {
   width: 100%;
 }
 
+.students,
 .instructors,
 .dashboard {
   display: flex;

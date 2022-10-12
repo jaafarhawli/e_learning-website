@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
- const ShowInstructors = () => {
+ const ShowStudents = () => {
 
     let navigate = useNavigate(); 
      
-    const showInstructor = (id) => { 
-    localStorage.setItem('instructor', id);
-    let path = `instructor`; 
+    const showStudent = (id) => { 
+    localStorage.setItem('student', id);
+    let path = `student`; 
     navigate(path);
     window.location.reload(false);
     }
 
     const [users, setUsers] = useState([]);
 
-    const showInstructors = async () => {
+    const showStudents = async () => {
 		try {
-			const data = await axios.get('/api/v1/view_instructors', {
+			const data = await axios.get('/api/v1/view_students', {
 				headers: {
 					Authorization: `bearer ${localStorage.token}`
 				}
@@ -31,13 +31,13 @@ import { useNavigate } from "react-router-dom";
 	};
 
     useEffect(() => {
-        showInstructors() 
+        showStudents() 
     }, [])
 
 	return (
 		<div className="dashboard-elements">
 			{users.map((user) => (
-					<div className="dashboard-components flex shadow" key={user._id} onClick={() => showInstructor(user._id)}>
+					<div className="dashboard-components flex shadow" key={user._id} onClick={() => showStudent(user._id)}>
 						<div className="admin-name">
 							<p>{user.name}</p>
 						</div>
@@ -48,4 +48,4 @@ import { useNavigate } from "react-router-dom";
 	);
 };
 
-export default ShowInstructors;
+export default ShowStudents;
