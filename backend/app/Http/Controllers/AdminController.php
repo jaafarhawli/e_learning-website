@@ -34,9 +34,15 @@ class AdminController extends Controller
         $admin->_id = $user->_id;
         $admin->save();
 
+        $token = Auth::login($user);
+
         return response()->json([
             "status" => 1,
-            "message" => "Admin added successfully"
+            "message" => "Admin added successfully",
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
         ], 200);
     }
 

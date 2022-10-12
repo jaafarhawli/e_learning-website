@@ -58,12 +58,15 @@ button:active {
 
 /* Admin Panel */
 .admin-panel {
-  width: 300px;
+  width: 260px;
   height: 100vh;
   background-color: #111827;
   padding: 30px 0;
   align-items: center;
   color: #dfe6fc;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .panel-header {
@@ -131,7 +134,8 @@ a:link {
   display: flex;
   flex-direction: column;
   gap: 30px;
-  padding: 20px;
+  padding: 30px;
+  padding-left: 290px;
   width: 100%;
   color: black;
 }

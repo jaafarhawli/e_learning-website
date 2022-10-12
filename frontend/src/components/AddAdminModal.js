@@ -39,13 +39,15 @@ export default function AddAdminModal() {
       password: password 
     }
 		try {
-			await axios.post('/api/v1/add_admin', form, {
+			const data = await axios.post('/api/v1/add_admin', form, {
 				headers: {
 					Authorization: `bearer ${localStorage.token}`
 				}
 			});
-      handleClose();
-      window.location.reload(false);
+      console.log(data.data.authorisation.token);
+      // localStorage.token = 
+      // handleClose();
+      // window.location.reload(false);
 		} catch (error) {
 			console.log(error);
 		}
