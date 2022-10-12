@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 const Instructor = () => {
 
     const [instructor, setInstructor] = useState([]);
+    const [instructorCourses, setInstructorCourses] = useState([]);
 
     let id = localStorage.instructor;
 
@@ -16,8 +17,9 @@ const Instructor = () => {
 					Authorization: `bearer ${localStorage.token}`
 				}
 			});
+
 			setInstructor(data.data.data);
-            console.log(data.data.data.courses);
+            setInstructorCourses(data.data.data.courses);
 		} catch (error) {
 			console.log(error);
 		}
@@ -36,7 +38,11 @@ const Instructor = () => {
         <h2>Email: {instructor.email}</h2>
         <h2>Courses:</h2>
         <ul>
-
+        {instructorCourses.map((user) => (
+						<li key={instructor._id}>
+							<p>{user.name}</p>
+						</li>
+			))}
         </ul>
         <button>Assign Course</button>
       </div>

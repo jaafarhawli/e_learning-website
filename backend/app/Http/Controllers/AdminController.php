@@ -200,11 +200,12 @@ class AdminController extends Controller
         $instructor['name'] = $data[0]->name;
         $instructor['email'] = $data[0]->email;
         $courses = Course::whereIn('_id', $instructor->courses)->get(['name']);
+        $instructor['courses'] = $courses;
 
         return response()->json([
             "status" => 1,
-            "data" => $instructor,
-            "courses" => $courses]);
+            "data" => $instructor
+        ]);
     }
     
     // View all students
