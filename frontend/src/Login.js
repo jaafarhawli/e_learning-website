@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from './api/axios';
 import {useNavigate} from 'react-router-dom';
 
@@ -9,6 +9,8 @@ const Login = () => {
 
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [userType, setUserType] = useState();
 
     const handleSubmit = async () => {
         const form = {
@@ -24,16 +26,38 @@ const Login = () => {
                 localStorage.setItem('name', data.data.user.name);
                 localStorage.setItem('email', data.data.user.email);
                 localStorage.setItem('type', data.data.user.type);
-                
+                setIsAuthenticated(true);
+                if(data.data.user.type === 'admin') {
+                    setUserType('admin');
+                }
+                else if(data.data.user.type === 'instructor') {
+                    setUserType('instructor');
+                }
+                else {
+                    setUserType('student');
+                }
             }
-            if(localStorage.type === 'admin') {
-                navigate("/dashboard");
-            }
-            window.location.reload(false);
+            // if(localStorage.type === 'admin') {
+            //     navigate("/dashboard");
+            // }
+            // window.location.reload(false);
         } catch (error) {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        if(isAuthenticated && userType === 'admin') {
+            navigate("/dashboard");
+        }
+        if(isAuthenticated && userType === 'instructor') {
+            navigate("/instructordashboard");
+        }
+        if(isAuthenticated && userType === 'student') {
+            navigate("/student-page");
+        }
+
+    }, [isAuthenticated, userType] )
  
     return(
         <div className="login-wrapper">
