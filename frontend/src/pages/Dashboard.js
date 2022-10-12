@@ -1,7 +1,8 @@
 import React from 'react';
-import {BsPlusLg} from 'react-icons/bs'
+
 import Panel from '../components/Panel';
 import Admins from '../components/Admins';
+import AddAdminModal from '../components/AddAdminModal';
 
 const Dashboard = () => {
   
@@ -11,9 +12,7 @@ const Dashboard = () => {
       <div className='dashboard'>
       <h1>Admins</h1>
       <Admins />
-      <button className='add-button'>
-        <BsPlusLg className='add-icon'/>
-      </button>
+      <AddAdminModal />
      </div>
     </div>
   );
