@@ -9,6 +9,7 @@ import Courses from './pages/Courses';
 import Announcements from './pages/Announcements';
 import Instructor from './pages/Instructor';
 import Student from './pages/Student';
+import Course from './pages/Course';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
           <Route path='/announcements' element={<Announcements />} />
           <Route path='/instructors/instructor' element={<Instructor />} />
           <Route path='/students/student' element={<Student />} />
+          <Route path='/courses/course' element={<Course />} />
         </Routes>
     </div>
   );

@@ -281,3 +281,25 @@ a:link {
   font-size: 15px;
   padding: 10px;
 }
+
+.course-list {
+  gap: 50px;
+  padding: 20px;
+  background-color: #dfe6fc;
+  border-bottom: 3px solid #4191f9;
+}
+
+.course-buttons {
+  align-items: center;
+  gap: 20px;
+}
+
+.delete,
+.assign {
+  width: 200px;
+  font-size: 17px;
+}
+
+.delete {
+  background-color: red !important;
+}

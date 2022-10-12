@@ -10,7 +10,8 @@ const Course = () => {
     let navigate = useNavigate();
 
     const [Course, setCourse] = useState([]);
-    const [CourseCourses, setCourseCourses] = useState([]);
+    const [CourseInstructors, setCourseInstructors] = useState([]);
+    const [CourseStudents, setCourseStudents] = useState([]);
 
     let id = localStorage.course;
 
@@ -60,22 +61,28 @@ const Course = () => {
         <h2>Instructors:</h2>
         <ul>
         {CourseInstructors.map((user) => (
-						<li key={Course._id}>
+						<li key={Course._id} className='flex course-list'>
 							<p>{user.name}</p>
+                            <p>{user.email}</p>
 						</li>
 			))}
         </ul>
         <h2>Students:</h2>
         <ul>
         {CourseStudents.map((user) => (
-						<li key={Course._id}>
+						<li key={Course._id} className='flex course-list'>
 							<p>{user.name}</p>
+                            <p>{user.email}</p>
 						</li>
 			))}
         </ul>
-        <button className='delete-button' onClick={() => deleteCourse(Course._id)}>
-            <MdDeleteOutline className='delete-icon' />
-        </button>
+        <div className='flex course-buttons'>
+            <button className='button assign'>Assign Instrcutor</button>
+            <button className='button delete' onClick={() => deleteCourse(Course._id)}>
+                <MdDeleteOutline className='delete-icon' />
+            </button>
+            
+        </div>
       </div>
     </div>
   );
