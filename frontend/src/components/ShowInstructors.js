@@ -1,9 +1,19 @@
 import React from 'react';
 import axios from '../api/axios';
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
  const ShowInstructors = () => {
+
+    let navigate = useNavigate(); 
+     
+    const showInstructor = (id) => { 
+    localStorage.setItem('instructor', id);
+    let path = `instructor`; 
+    navigate(path);
+    window.location.reload(false);
+    }
 
     const [users, setUsers] = useState([]);
 
@@ -28,7 +38,7 @@ import { useEffect, useState } from "react";
 	return (
 		<div className="dashboard-elements">
 			{users.map((user) => (
-					<div className="dashboard-components flex shadow" key={user._id}>
+					<div className="dashboard-components flex shadow" key={user._id} onClick={() => showInstructor(user._id)}>
 						<div className="admin-name">
 							<p>{user.name}</p>
 						</div>
