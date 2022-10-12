@@ -129,6 +129,7 @@ a:link {
   width: 100%;
 }
 
+.courses,
 .students,
 .instructors,
 .dashboard {
@@ -158,9 +159,17 @@ a:link {
   padding: 20px;
 }
 
+.course-name p,
 .admin-name p {
   font-size: 18px;
   font-weight: 700;
+}
+
+.course-name {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 20px;
 }
 
 .add-button {
