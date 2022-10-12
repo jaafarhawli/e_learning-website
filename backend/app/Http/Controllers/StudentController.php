@@ -18,11 +18,6 @@ use Illuminate\Support\Facades\Auth;
 class StudentController extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['viewAnnouncements']]);
-    }
-
     // View all courses the student is enrolled in
     function viewStudentCourses($id) {
         $courses = Course::where('students','=',$id)->get();
