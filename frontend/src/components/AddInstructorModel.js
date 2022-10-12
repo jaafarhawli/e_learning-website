@@ -32,8 +32,23 @@ export default function AddInstructorModal() {
     setPassword(event.target.value);
   }
 
-  
-
+  const addInstructor = async () => {
+    const form = {
+      admin_id: localStorage.id,
+      name: name,
+      email: email,
+      password: password 
+    }
+		try {
+			await axios.post('/api/v1/add_instructor', form, {
+				headers: {
+					Authorization: `bearer ${localStorage.token}`
+				}
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
   return (
     <div>
