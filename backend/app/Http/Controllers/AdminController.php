@@ -199,10 +199,12 @@ class AdminController extends Controller
         $data = User::where('_id','=',$id)->get(['name','email']);
         $instructor['name'] = $data[0]->name;
         $instructor['email'] = $data[0]->email;
+        $courses = Course::whereIn('_id', $instructor->courses)->get(['name']);
 
         return response()->json([
             "status" => 1,
-            "data" => $instructor]);
+            "data" => $instructor,
+            "courses" => $courses]);
     }
     
     // View all students
