@@ -51,7 +51,7 @@ const Login = () => {
             navigate("/dashboard");
         }
         if(isAuthenticated && userType === 'instructor') {
-            navigate("/instructordashboard");
+            navigate("/instructor_courses");
         }
         if(isAuthenticated && userType === 'student') {
             navigate("/student-page");

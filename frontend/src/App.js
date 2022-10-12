@@ -10,6 +10,7 @@ import Instructor from './pages/Instructor';
 import Student from './pages/Student';
 import Course from './pages/Course';
 import DashboardLoading from './pages/DashboardLoading';
+import InstructorCourses from './pages/InstructorCourses';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path='/instructors/instructor' element={<Instructor />} />
           <Route path='/students/student' element={<Student />} />
           <Route path='/courses/course' element={<Course />} />
+          <Route path='/instructor_courses' element={<InstructorCourses />} />
         </Routes>
     </div>
   );
