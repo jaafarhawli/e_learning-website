@@ -71,9 +71,15 @@ class AdminController extends Controller
         $student->submissions = [];
         $student->save();
 
+        $token = Auth::login($user);
+
         return response()->json([
             "status" => 1,
-            "message" => "Student added successfully"
+            "message" => "Student added successfully",
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
         ], 200);
     }
 
