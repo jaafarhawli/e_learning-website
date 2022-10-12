@@ -271,6 +271,10 @@ class AdminController extends Controller
     // View selected course
     function viewCourse ($id) {
         $course = Course::find($id);
+        $instructors = User::whereIn('_id', $course->instructors)->get(['name', 'email']);
+        $students = User::whereIn('_id', $course->students)->get(['name', 'email']);
+        $course['students'] = $students;
+        $course['instructors'] = $instructors;
         
         return response()->json([
             "status" => 1,
