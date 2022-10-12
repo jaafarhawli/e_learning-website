@@ -3,6 +3,7 @@ import AddCourseModal from '../components/AddCourseModal';
 import Panel from '../components/Panel';
 import ShowCourses from '../components/ShowCourses';
 
+
 const Courses = () => {
   return (
     <div className='flex'>

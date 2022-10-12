@@ -4,6 +4,7 @@ import axios from '../api/axios';
 import { useEffect, useState } from "react";
 import {MdDeleteOutline} from 'react-icons/md';
 import { useNavigate } from "react-router-dom";
+import AssignInstructorModal from '../components/AssignInstructor';
 
 const Course = () => {
 
@@ -61,7 +62,7 @@ const Course = () => {
         <h2>Instructors:</h2>
         <ul>
         {CourseInstructors.map((user) => (
-						<li key={Course._id} className='flex course-list'>
+						<li key={user._id} className='flex course-list'>
 							<p>{user.name}</p>
                             <p>{user.email}</p>
 						</li>
@@ -70,14 +71,14 @@ const Course = () => {
         <h2>Students:</h2>
         <ul>
         {CourseStudents.map((user) => (
-						<li key={Course._id} className='flex course-list'>
+						<li key={user._id} className='flex course-list'>
 							<p>{user.name}</p>
                             <p>{user.email}</p>
 						</li>
 			))}
         </ul>
         <div className='flex course-buttons'>
-            <button className='button assign'>Assign Instrcutor</button>
+            <AssignInstructorModal />
             <button className='button delete' onClick={() => deleteCourse(Course._id)}>
                 <MdDeleteOutline className='delete-icon' />
             </button>
