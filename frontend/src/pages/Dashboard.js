@@ -1,6 +1,7 @@
 import React from 'react';
 import {BsPlusLg} from 'react-icons/bs'
 import Panel from '../components/Panel';
+import Admins from '../components/Admins';
 
 const Dashboard = () => {
   
@@ -9,18 +10,7 @@ const Dashboard = () => {
       <Panel />
       <div className='dashboard'>
       <h1>Admins</h1>
-      <div className='dashboard-components flex shadow'>
-        <div className='admin-name'>
-         <p>Jaafar Hawli</p>
-        </div>
-        <p>jaafarhawle@gmail.com</p>
-      </div>
-      <div className='dashboard-components flex shadow'>
-        <div className='admin-name'>
-         <p>Jaafar Hawli</p>
-        </div>
-        <p>jaafarhawle@gmail.com</p>
-      </div>
+      <Admins />
       <button className='add-button'>
         <BsPlusLg className='add-icon'/>
       </button>

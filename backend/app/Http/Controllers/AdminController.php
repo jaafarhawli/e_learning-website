@@ -166,7 +166,7 @@ class AdminController extends Controller
     }
 
     function viewAdmins () {
-        $admins = Admin::all();
+        $admins = User::where('type', '=', 'admin')->get();
     
         return response()->json([
             "status" => 1,

@@ -1,40 +1,40 @@
 import React from 'react';
-import axios from './api/axios';
+import axios from '../api/axios';
+import { useEffect, useState } from "react";
 
 const Admins = () => {
-    
-    const showAdmins = async () => {
-        const form = {
-            email: username,
-            password: password
-        };
-        try {
-            const data = await axios.post('/api/v1/login', form);
-            const token = data.data.authorisation.token;
-            if(token) {
-                localStorage.setItem('token', token);
-                localStorage.setItem('id', data.data.user._id);
-                localStorage.setItem('name', data.data.user.name);
-                localStorage.setItem('email', data.data.user.email);
-                localStorage.setItem('type', data.data.user.type);
-                
-            }
-            if(localStorage.type === 'admin') {
-                navigate("/dashboard");
-            }
-            window.location.reload(false);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-  
-    return (
-    <div className='dashboard'>
-      {PanelComponent.map((item, index) => {
 
-      })}
-    </div>
-  );
-}
+    const [users, setUsers] = useState([]);
+
+	const showAdmins = async () => {
+		try {
+			const data = await axios.get('/api/v1/view_admins', {
+				headers: {
+					Authorization: `bearer ${localStorage.token}`
+				}
+			});
+			setUsers(data.data.data) ;
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+    useEffect(() => {
+        showAdmins() 
+    }, [])
+
+	return (
+		<div className="dashboard-elements">
+			{users.map((user) => (
+					<div className="dashboard-components flex shadow" key={user._id}>
+						<div className="admin-name">
+							<p>{user.name}</p>
+						</div>
+						<p>{user.email}</p>
+					</div>
+			))}
+		</div>
+	);
+};
 
 export default Admins;
