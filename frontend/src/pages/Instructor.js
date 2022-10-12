@@ -2,9 +2,12 @@ import React from 'react';
 import Panel from '../components/Panel';
 import axios from '../api/axios';
 import { useEffect, useState } from "react";
-import {MdDeleteOutline} from 'react-icons/md'
+import {MdDeleteOutline} from 'react-icons/md';
+import { useNavigate } from "react-router-dom";
 
 const Instructor = () => {
+
+    let navigate = useNavigate();
 
     const [instructor, setInstructor] = useState([]);
     const [instructorCourses, setInstructorCourses] = useState([]);
@@ -21,6 +24,23 @@ const Instructor = () => {
 
 			setInstructor(data.data.data);
             setInstructorCourses(data.data.data.courses);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+    const deleteInstructor = async (id) => {
+		const form = {
+            id: id
+        }
+        try {
+			await axios.post('/api/v1/remove_instructor', form, {
+				headers: {
+					Authorization: `bearer ${localStorage.token}`
+				}
+			});
+            navigate(-1);
+
 		} catch (error) {
 			console.log(error);
 		}
@@ -45,7 +65,7 @@ const Instructor = () => {
 						</li>
 			))}
         </ul>
-        <button className='delete-button'>
+        <button className='delete-button' onClick={() => deleteInstructor(instructor._id)}>
             <MdDeleteOutline className='delete-icon' />
         </button>
       </div>

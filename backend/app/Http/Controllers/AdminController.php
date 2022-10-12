@@ -303,7 +303,7 @@ class AdminController extends Controller
         $courses = Course::all();
         foreach($courses as $course) {
             foreach($course->instructors as $instructor) {
-                if($instructor['id']==$id) {
+                if($instructor==$id) {
                     Course::where('_id','=',$course->_id)->pull('instructors', $instructor);
                 }
             }       
