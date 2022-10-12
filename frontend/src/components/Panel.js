@@ -16,7 +16,7 @@ const Panel = () => {
   return (
     <div className="admin-panel flex column pointer">
         <div className="panel-component panel-header">
-          <h1>Welcome,<span className="bold"> Jaafar Hawli</span></h1>
+          <h1>Welcome,<span className="bold"> {localStorage.name}</span></h1>
           <p>Admin</p>
         </div>
         <ul className="panel-list">

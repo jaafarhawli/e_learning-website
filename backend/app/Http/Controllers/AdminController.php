@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\AdminAccess;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Instructor;
@@ -163,6 +164,15 @@ class AdminController extends Controller
             "message" => "Instructor assigned to course successfully",
         ], 200);
     }
+
+    function viewAdmins () {
+        $admins = Admin::all();
+    
+        return response()->json([
+            "status" => 1,
+            "data" => $admins]);
+    }
+
 
     // View all instructors
     function viewInstructors () {

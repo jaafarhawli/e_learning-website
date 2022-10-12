@@ -11,7 +11,7 @@ Route::group(["prefix"=> "v1"], function() {
 
     Route::post('login', [AuthController::class, "login"]);
 
-    Route::group(["middleware" => "user"], function() {
+    Route::group(["middleware" => "auth:api"], function() {
         
         Route::group(["middleware" => "admin"], function() {
             // Admin functions
@@ -30,6 +30,8 @@ Route::group(["prefix"=> "v1"], function() {
             Route::post('remove_course', [AdminController::class, "removeCourse"]);
             
             Route::post('assign_instructor', [AdminController::class, "assignInstructor"]);
+            
+            Route::get('view_admins', [AdminController::class, "viewAdmins"]);
             
             Route::get('view_instructors', [AdminController::class, "viewInstructors"]);
             
