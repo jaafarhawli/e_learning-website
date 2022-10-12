@@ -145,8 +145,9 @@ class AdminController extends Controller
     function assignInstructor(Request $request) {
         $request->validate([
             "course_id" => "required",
-            "instructors" => "required|array",
-            "instructors.*"  => "required|string|distinct",
+            "instructor" => "required",
+            // "instructors" => "required|array",
+            // "instructors.*"  => "required|string|distinct",
         ]);
 
         // Check if course exists in the database
@@ -158,14 +159,14 @@ class AdminController extends Controller
         };
 
         // Loop over instructors
-        foreach ($request->instructors as $email) {
+        // foreach ($request->instructors as $email) {
             // Get instructor id from the given email
-            $id = User::where('email', '=', $email)->where('type', '=', 'instructor')->get(['_id']);
+            $id = User::where('email', '=', $request->instructor)->where('type', '=', 'instructor')->get(['_id']);
             $id = $id[0]->_id;
             
             // Loop over course instructors to make sure not to add duplicates 
             foreach($course->instructors as $instructor_id) {
-                if($instructor_id['id']==$id) {
+                if($instructor_id==$id) {
                     return response()->json([
                         "message" => "Instructor already assigned",
                     ]); 
@@ -175,7 +176,7 @@ class AdminController extends Controller
             Instructor::where('_id','=',$id)->push('courses', $request->course_id);
             // Add instructor to courses collection
             Course::where('_id','=',$request->course_id)->push('instructors', $id);
-        };
+        // };
 
         return response()->json([
             "status" => 1,
